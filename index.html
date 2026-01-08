@@ -1,0 +1,2881 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Influency - Connecting Brands with Amazing Creators. The ultimate platform for influencer-brand collaborations." />
+    <title>Influency - Connect Creators with Brands</title>
+  
+  <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- React CDN -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  
+  <!-- Tailwind Config -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#232120',
+            secondary: '#F5EAE2',
+            'accent-orange': '#FF4100',
+            'accent-green': '#00E264',
+            'accent-pink': '#FF78F4',
+            'accent-purple': '#6273E9',
+            subtitle: '#624639',
+            outline: '#EADCD3',
+            'outline-medium': '#D0BFB4',
+          },
+          fontFamily: {
+            montserrat: ['Montserrat', 'sans-serif'],
+            sans: ['DM Sans', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  
+  <style>
+    html { scroll-behavior: smooth; }
+    body { font-family: 'DM Sans', sans-serif; }
+    .font-montserrat { font-family: 'Montserrat', sans-serif; }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(var(--rotate, 0deg)); }
+      50% { transform: translateY(-15px) rotate(var(--rotate, 0deg)); }
+    }
+    .animate-float { animation: float 4s ease-in-out infinite; }
+    .animate-float-slow { animation: float 5s ease-in-out infinite; }
+    .animate-float-delayed { animation: float 4.5s ease-in-out infinite 0.8s; }
+    
+    /* Stacked Cards Scroll Animation */
+    .stacked-section {
+      position: relative;
+      height: 300vh;
+    }
+    .stacked-container {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .stacked-card {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform 0.1s ease-out;
+    }
+    .stacked-card-inner {
+      background: white;
+      border-radius: 2rem;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      padding: 2rem;
+      max-width: 1200px;
+      width: 90%;
+      min-height: 80vh;
+      display: flex;
+      align-items: center;
+    }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in-up { animation: fadeInUp 0.6s ease-out forwards; }
+    
+    .gradient-text {
+      background: linear-gradient(to right, #FF4100, #FF78F4, #00E264);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* World map + pins */
+    .world-map-surface {
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+    .world-pin {
+      transition: transform 220ms ease, box-shadow 220ms ease, opacity 220ms ease;
+      box-shadow: 0 12px 30px -12px rgba(0,0,0,0.25);
+    }
+    .world-pin:hover,
+    .world-pin:focus-visible {
+      transform: translate(-50%, -50%) scale(1.06);
+      box-shadow: 0 16px 40px -14px rgba(0,0,0,0.28);
+      outline: none;
+    }
+    .world-pin::after {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 9999px;
+      border: 2px solid rgba(59,130,246,0.25);
+      animation: pin-pulse 4s ease-out infinite;
+      opacity: 0;
+    }
+    .world-pin.pulse::after { opacity: 1; }
+    @keyframes pin-pulse {
+      0% { transform: scale(0.9); opacity: 0.5; }
+      60% { transform: scale(1.4); opacity: 0; }
+      100% { transform: scale(1.4); opacity: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .world-pin,
+      .world-pin:hover,
+      .world-pin:focus-visible {
+        transition: none;
+        transform: translate(-50%, -50%);
+      }
+      .world-pin::after { animation: none; }
+    }
+
+    /* Team gallery */
+    .team-drag {
+      cursor: none;
+      scroll-behavior: smooth;
+    }
+    .team-drag.dragging {
+      cursor: none;
+      scroll-behavior: auto;
+      user-select: none;
+    }
+    .team-drag img {
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+    .drag-overlay {
+      opacity: 0;
+      transform: scale(0.9);
+      transition: opacity 140ms ease, transform 140ms ease;
+    }
+    .team-card:hover .drag-overlay {
+      opacity: 0.95;
+      transform: scale(1);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .drag-overlay,
+      .team-card:hover .drag-overlay {
+        transition: none;
+        transform: scale(1);
+      }
+    }
+
+    /* Stacked journey panels */
+    .stacked-viewport {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow: hidden;
+    }
+    .stacked-panel {
+      position: absolute;
+      inset: 0;
+      border-radius: 28px;
+      box-shadow: 0 25px 60px -24px rgba(0,0,0,0.35);
+      transition: transform 200ms linear, opacity 200ms linear;
+      background: white;
+    }
+
+    /* Integration brand hover states */
+    :root {
+      --stripe-color: #635BFF;
+      --meta-color: #1877F2;
+    }
+    .integration-card {
+      position: relative;
+      transition: transform 300ms ease-out, box-shadow 300ms ease-out, border-color 300ms ease-out, color 300ms ease-out, background-color 300ms ease-out;
+    }
+    .integration-card:focus-visible {
+      outline: 2px solid var(--stripe-color);
+      outline-offset: 4px;
+    }
+    .integration-card--stripe {
+      --brand-color: var(--stripe-color);
+    }
+    .integration-card--meta {
+      --brand-color: var(--meta-color);
+    }
+    .integration-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 60px -20px rgba(0,0,0,0.2);
+    }
+    .integration-card:hover .integration-logo {
+      border-color: transparent;
+    }
+    .integration-card:hover .integration-bullet,
+    .integration-card:hover .integration-check {
+      color: var(--brand-color);
+    }
+    .integration-card--stripe:hover {
+      border-color: color-mix(in srgb, var(--stripe-color) 35%, transparent);
+      box-shadow: 0 28px 80px -30px color-mix(in srgb, var(--stripe-color) 60%, transparent);
+      background: linear-gradient(180deg, rgba(99,91,255,0.05) 0%, rgba(99,91,255,0) 70%);
+    }
+    .integration-card--meta:hover {
+      border-color: color-mix(in srgb, var(--meta-color) 35%, transparent);
+      box-shadow: 0 28px 80px -30px color-mix(in srgb, var(--meta-color) 60%, transparent);
+      background: linear-gradient(180deg, rgba(24,119,242,0.05) 0%, rgba(24,119,242,0) 70%);
+    }
+    /* prefers-reduced-motion: keep colors, drop lift/glow */
+    @media (prefers-reduced-motion: reduce) {
+      .integration-card {
+        transition: color 150ms ease-out, border-color 150ms ease-out, background-color 150ms ease-out;
+      }
+      .integration-card:hover {
+        transform: none;
+        box-shadow: none;
+      }
+      .integration-card--stripe:hover {
+        border-color: var(--stripe-color);
+      }
+      .integration-card--meta:hover {
+        border-color: var(--meta-color);
+      }
+    }
+  </style>
+</head>
+<body class="bg-white text-primary">
+  <div id="root"></div>
+  
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+    
+    // ============================================
+    // HEADER COMPONENT
+    // ============================================
+    const Header = () => {
+      const [isScrolled, setIsScrolled] = useState(false);
+      const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+      useEffect(() => {
+        const handleScroll = () => setIsScrolled(window.scrollY > 20);
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, []);
+
+      return (
+        <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled ? 'bg-white/95 backdrop-blur-md shadow-sm py-3' : 'bg-transparent py-5'
+        }`}>
+          <div className="max-w-[1280px] mx-auto px-6 flex items-center justify-between">
+            {/* Logo - 15% bigger */}
+            <a href="/" className="flex items-center">
+              <img src="assets/Logo.png" alt="Influency" className={`transition-all ${isScrolled ? 'h-9 sm:h-11' : 'h-10 sm:h-12'}`} />
+            </a>
+
+            {/* Nav - Center */}
+            <nav className="hidden md:flex items-center gap-8">
+              {['Features', 'How it Works', 'Testimonials', 'Pricing'].map((item) => (
+                <a key={item} href={`#${item.toLowerCase().replace(/\s/g, '-')}`} 
+                   className={`text-base font-medium transition-colors ${
+                     isScrolled ? 'text-subtitle hover:text-primary' : 'text-white hover:text-white/80'
+                   }`}>
+                  {item}
+                </a>
+              ))}
+            </nav>
+
+            {/* CTA - Right */}
+            <div className="hidden md:flex items-center">
+              <a
+                href="/waitlist.html"
+                target="_blank"
+                rel="noreferrer"
+                className={`px-7 py-3 rounded-full text-base font-semibold transition-all hover:shadow-lg ${
+                  isScrolled ? 'bg-primary text-secondary hover:bg-primary/90' : 'bg-white text-primary hover:bg-white/90'
+                }`}
+              >
+                Join The Waitlist
+              </a>
+            </div>
+
+            {/* Mobile Menu Button */}
+            <button className="md:hidden flex flex-col gap-1.5 p-2" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+              <span className={`w-6 h-0.5 transition-all ${isScrolled ? 'bg-primary' : 'bg-white'} ${isMobileMenuOpen ? 'rotate-45 translate-y-2' : ''}`} />
+              <span className={`w-6 h-0.5 transition-all ${isScrolled ? 'bg-primary' : 'bg-white'} ${isMobileMenuOpen ? 'opacity-0' : ''}`} />
+              <span className={`w-6 h-0.5 transition-all ${isScrolled ? 'bg-primary' : 'bg-white'} ${isMobileMenuOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+            </button>
+        </div>
+
+          {/* Mobile Menu */}
+          {isMobileMenuOpen && (
+            <div className="md:hidden absolute top-full left-0 right-0 bg-white shadow-lg py-6 px-6">
+              <nav className="flex flex-col gap-4">
+                {['Features', 'How it Works', 'Testimonials', 'Pricing'].map((item) => (
+                  <a key={item} href={`#${item.toLowerCase().replace(/\s/g, '-')}`} className="text-primary font-medium py-2">{item}</a>
+                ))}
+                <hr className="my-2 border-outline" />
+                <a
+                  href="/waitlist.html"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="bg-primary text-secondary px-6 py-3 rounded-full text-center font-semibold"
+                >
+                  Join The Waitlist
+                </a>
+    </nav>
+            </div>
+          )}
+        </header>
+      );
+    };
+
+    // ============================================
+    // HERO (Standalone)
+    // ============================================
+    const Hero = () => {
+      const [showDemo, setShowDemo] = useState(false);
+      const demoVideoRef = React.useRef(null);
+
+      useEffect(() => {
+        const onKey = (e) => e.key === 'Escape' && handleCloseDemo();
+        if (showDemo) window.addEventListener('keydown', onKey);
+        return () => window.removeEventListener('keydown', onKey);
+      }, [showDemo]);
+
+      const handleCloseDemo = () => {
+        setShowDemo(false);
+        if (demoVideoRef.current) {
+          demoVideoRef.current.pause();
+          demoVideoRef.current.currentTime = 0;
+        }
+      };
+
+      return (
+        <section className="relative min-h-screen pt-24 pb-16 overflow-hidden">
+          <div className="absolute inset-0 z-0">
+            <video autoPlay muted loop playsInline className="w-full h-full object-cover">
+              <source src="assets/Influencer Video 1080p.mp4" type="video/mp4" />
+            </video>
+            <div className="absolute inset-0 bg-black/50" />
+        </div>
+
+          <div className="relative z-10 max-w-[1280px] mx-auto px-6">
+            <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-[calc(100vh-6rem)]">
+              <div className="space-y-8">
+                <h1 className="font-montserrat font-bold text-4xl sm:text-5xl lg:text-6xl xl:text-7xl text-white leading-[1.1] tracking-tight drop-shadow-lg">
+                  Connect Creators<br />with <span className="gradient-text">Amazing Brands</span>
+            </h1>
+
+                <p className="text-lg sm:text-xl text-white/90 max-w-lg leading-relaxed drop-shadow">
+                  The ultimate platform for influencer-brand collaborations. Swipe, match, and start earning from campaigns that align with your content.
+            </p>
+
+                <div className="flex flex-wrap gap-4">
+                  <a
+                    href="/waitlist.html"
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 bg-white text-primary px-8 py-4 rounded-full text-base font-semibold hover:bg-secondary transition-all hover:shadow-xl hover:-translate-y-0.5"
+                  >
+                    Join The Waitlist
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </a>
+                  <button 
+                    type="button"
+                    onClick={() => setShowDemo(true)}
+                    className="inline-flex items-center gap-2 bg-transparent border-2 border-white text-white px-8 py-4 rounded-full text-base font-semibold hover:bg-white/10 transition-all hover:shadow-lg"
+                  >
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                    Watch
+                  </button>
+                </div>
+
+                <div className="flex items-center gap-4 pt-4">
+                  <div className="flex -space-x-3">
+                    {[1, 5, 8, 12, 15].map((num) => (
+                      <img key={num} src={`https://i.pravatar.cc/48?img=${num}`} alt="User" className="w-10 h-10 rounded-full border-2 border-white" />
+                    ))}
+                  </div>
+                  <div className="text-sm">
+                    <span className="font-semibold text-white">2,500+</span>
+                    <span className="text-white/80"> creators joined this week</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="relative h-[500px] lg:h-[650px] flex items-center justify-center">
+                <div className="absolute left-0 lg:left-[5%] top-[15%] z-10 transform hover:scale-105 transition-all duration-500 animate-float-delayed">
+                  <div className="relative">
+                    <div className="w-[200px] sm:w-[240px] lg:w-[280px] bg-black rounded-[3rem] p-[8px] shadow-2xl">
+                      <div className="absolute top-[12px] left-1/2 -translate-x-1/2 w-[80px] h-[25px] bg-black rounded-full z-20"></div>
+                      <div className="relative rounded-[2.5rem] overflow-hidden bg-white">
+                        <img 
+                          src="assets/Discover Deck - Swipe left.png" 
+                          alt="Swipe Left" 
+                          className="w-full h-auto"
+                        />
+                      </div>
+                    </div>
+                    <div className="absolute -left-8 top-1/2 -translate-y-1/2 bg-accent-orange text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg flex items-center gap-2">
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                      Nope
+            </div>
+                </div>
+                </div>
+
+                <div className="absolute right-0 lg:right-[5%] top-[5%] z-20 transform hover:scale-105 transition-all duration-500 animate-float-slow">
+                  <div className="relative">
+                    <div className="w-[220px] sm:w-[260px] lg:w-[300px] bg-black rounded-[3rem] p-[8px] shadow-2xl">
+                      <div className="absolute top-[12px] left-1/2 -translate-x-1/2 w-[90px] h-[28px] bg-black rounded-full z-20"></div>
+                      <div className="relative rounded-[2.5rem] overflow-hidden bg-white">
+                        <img 
+                          src="assets/Discover Deck - Swipe right.png" 
+                          alt="Swipe Right" 
+                          className="w-full h-auto"
+                        />
+                </div>
+            </div>
+                    <div className="absolute -right-8 top-1/2 -translate-y-1/2 bg-accent-green text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg flex items-center gap-2">
+                      Like
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                      </svg>
+        </div>
+                  </div>
+                </div>
+                
+                <div className="absolute top-[0%] right-[15%] bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl px-5 py-3 z-30 animate-bounce">
+                  <div className="flex items-center gap-2">
+                    <span className="text-2xl">🎉</span>
+                    <span className="text-sm font-bold text-primary">It's a Match!</span>
+                  </div>
+                </div>
+                
+                {/* Removed floating heart */}
+                {/* Removed sparkle */}
+              </div>
+            </div>
+          </div>
+
+          {showDemo && (
+            <div
+              className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center px-4"
+              onClick={handleCloseDemo}
+              role="dialog"
+              aria-modal="true"
+            >
+              <div
+                className="relative w-full max-w-4xl"
+                onClick={(e) => e.stopPropagation()}
+              >
+                <button
+                  type="button"
+                  onClick={handleCloseDemo}
+                  className="absolute -top-4 -right-4 md:top-3 md:right-3 text-white bg-white/15 hover:bg-white/25 rounded-full p-2.5 md:p-3 border border-white/30 transition-colors shadow-lg"
+                  aria-label="Close demo video"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+                <div className="overflow-hidden rounded-3xl shadow-2xl border border-white/10 bg-black">
+                  <video
+                    ref={demoVideoRef}
+                    controls
+                    autoPlay
+                    playsInline
+                    className="w-full h-full"
+                  >
+                    <source src="assets/output_progressive_ee9b954b-5f4f-4f14-81f5-dc4288f959e3.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                        </video>
+                    </div>
+                        </div>
+                    </div>
+          )}
+        </section>
+      );
+    };
+    // ============================================
+    // HERO + INTEGRATIONS STACKED TRANSITION
+    // ============================================
+    const HeroIntegrationsStack = () => {
+      const [showDemo, setShowDemo] = useState(false);
+      const demoVideoRef = React.useRef(null);
+      const stackRef = React.useRef(null);
+      const [progress, setProgress] = useState(0);
+      const integrations = [
+        {
+          name: 'Meta',
+          title: 'Meta Insights Sync',
+          description: 'Connect Instagram and Facebook creator accounts to automatically fetch key performance metrics such as reach, engagement, audience breakdown, and content performance.',
+          features: [
+            'Pull stats automatically from connected accounts',
+            'Keep creator profiles always up to date',
+            'Standardized metrics for easy comparisons',
+            'Audience demographics & insights',
+            'Content performance analytics'
+          ],
+          color: 'blue',
+          logoSrc: 'assets/META.png'
+        },
+        {
+          name: 'Stripe',
+          title: 'Stripe Connect Payouts',
+          description: 'Onboard creators with Stripe Connect and automate secure payments, payouts, and invoicing with full compliance and reporting.',
+          features: [
+            'Marketplace-ready instant payouts',
+            'Seamless creator onboarding flow',
+            'Transparent fees and reporting',
+            'Global payment support',
+            'Automated tax compliance'
+          ],
+          color: 'purple',
+          logoSrc: 'assets/Stripe-logo.png'
+        }
+      ];
+
+      const handleOpenDemo = () => setShowDemo(true);
+      const handleCloseDemo = () => {
+        setShowDemo(false);
+        if (demoVideoRef.current) {
+          demoVideoRef.current.pause();
+          demoVideoRef.current.currentTime = 0;
+        }
+      };
+
+      // Close on Esc
+      useEffect(() => {
+        const onKey = (e) => {
+          if (e.key === 'Escape') handleCloseDemo();
+        };
+        if (showDemo) window.addEventListener('keydown', onKey);
+        return () => window.removeEventListener('keydown', onKey);
+      }, [showDemo]);
+
+      // Scroll progress between Hero and Integrations
+      useEffect(() => {
+        const onScroll = () => {
+          if (!stackRef.current) return;
+          const rect = stackRef.current.getBoundingClientRect();
+          const vh = window.innerHeight;
+          const total = rect.height - vh;
+          const scrolled = Math.min(Math.max(-rect.top, 0), total);
+          setProgress(total > 0 ? scrolled / total : 0);
+        };
+        onScroll();
+        window.addEventListener('scroll', onScroll);
+        return () => window.removeEventListener('scroll', onScroll);
+      }, []);
+
+      // Disable overlay stacking – keep hero opaque and hide incoming layer
+      const heroOffset = 0;
+      const incomingTranslate = 100;
+      const incomingOpacity = 0;
+      const heroOpacity = 1;
+
+      return (
+        <section ref={stackRef} className="relative h-[220vh] bg-white">
+          <div className="sticky top-0 h-screen overflow-hidden">
+            {/* HERO LAYER */}
+            <div
+              className="absolute inset-0"
+              style={{
+                transform: `translateY(${heroOffset}px)`,
+                opacity: heroOpacity,
+                transition: 'transform 120ms linear, opacity 180ms linear'
+              }}
+            >
+              {/* Video Background */}
+              <div className="absolute inset-0 z-0">
+                <video autoPlay muted loop playsInline className="w-full h-full object-cover">
+                  <source src="assets/Influencer Video 1080p.mp4" type="video/mp4" />
+                </video>
+                <div className="absolute inset-0 bg-black/50" />
+                        </div>
+
+              <div className="relative z-10 max-w-[1280px] mx-auto px-6">
+                <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center min-h-[calc(100vh-6rem)]">
+                  {/* Left Column */}
+                  <div className="space-y-8">
+                    {/* Trust Badges */}
+                    <div className="flex flex-wrap items-center gap-3">
+                      <span className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-4 py-1.5 rounded-full text-sm font-medium">
+                        <span className="w-2 h-2 bg-accent-green rounded-full animate-pulse" />Live Now
+                      </span>
+                      <span className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm text-white px-4 py-1.5 rounded-full text-sm font-medium">🔥 Trending</span>
+                    </div>
+
+                    {/* Headline */}
+                    <h1 className="font-montserrat font-bold text-4xl sm:text-5xl lg:text-6xl xl:text-7xl text-white leading-[1.1] tracking-tight drop-shadow-lg">
+                      Connect Creators<br />with <span className="gradient-text">Amazing Brands</span>
+                    </h1>
+
+                    {/* Subheading */}
+                    <p className="text-lg sm:text-xl text-white/90 max-w-lg leading-relaxed drop-shadow">
+                      The ultimate platform for influencer-brand collaborations. Swipe, match, and start earning from campaigns that align with your content.
+                    </p>
+
+                    {/* CTA Buttons */}
+                    <div className="flex flex-wrap gap-4">
+                      <a
+                        href="/waitlist.html"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="inline-flex items-center gap-2 bg-white text-primary px-8 py-4 rounded-full text-base font-semibold hover:bg-secondary transition-all hover:shadow-xl hover:-translate-y-0.5"
+                      >
+                        Join The Waitlist
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                      </a>
+                      <button 
+                        type="button"
+                        onClick={handleOpenDemo}
+                        className="inline-flex items-center gap-2 bg-transparent border-2 border-white text-white px-8 py-4 rounded-full text-base font-semibold hover:bg-white/10 transition-all hover:shadow-lg"
+                      >
+                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+                        Watch
+                            </button>
+                        </div>
+
+                    {/* Social Proof */}
+                    <div className="flex items-center gap-4 pt-4">
+                      <div className="flex -space-x-3">
+                        {[1, 5, 8, 12, 15].map((num) => (
+                          <img key={num} src={`https://i.pravatar.cc/48?img=${num}`} alt="User" className="w-10 h-10 rounded-full border-2 border-white" />
+                        ))}
+                    </div>
+                      <div className="text-sm">
+                        <span className="font-semibold text-white">2,500+</span>
+                        <span className="text-white/80"> creators joined this week</span>
+                </div>
+            </div>
+                        </div>
+
+                  {/* Right Column - Floating iPhones */}
+                  <div className="relative h-[500px] lg:h-[650px] flex items-center justify-center">
+                    {/* iPhone 1 - Swipe Left (Back) */}
+                    <div className="absolute left-0 lg:left-[5%] top-[15%] z-10 transform hover:scale-105 transition-all duration-500 animate-float-delayed">
+                      <div className="relative">
+                        {/* iPhone Frame */}
+                        <div className="w-[200px] sm:w-[240px] lg:w-[280px] bg-black rounded-[3rem] p-[8px] shadow-2xl">
+                          {/* Dynamic Island */}
+                          <div className="absolute top-[12px] left-1/2 -translate-x-1/2 w-[80px] h-[25px] bg-black rounded-full z-20"></div>
+                          {/* Screen */}
+                          <div className="relative rounded-[2.5rem] overflow-hidden bg-white">
+                            <img 
+                              src="assets/Discover Deck - Swipe left.png" 
+                              alt="Swipe Left" 
+                              className="w-full h-auto"
+                            />
+                    </div>
+                        </div>
+                        {/* Swipe Left Indicator */}
+                        <div className="absolute -left-8 top-1/2 -translate-y-1/2 bg-accent-orange text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg flex items-center gap-2">
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                          </svg>
+                          Nope
+                    </div>
+                            </div>
+                        </div>
+
+                    {/* iPhone 2 - Swipe Right (Front) */}
+                    <div className="absolute right-0 lg:right-[5%] top-[5%] z-20 transform hover:scale-105 transition-all duration-500 animate-float-slow">
+                      <div className="relative">
+                        {/* iPhone Frame */}
+                        <div className="w-[220px] sm:w-[260px] lg:w-[300px] bg-black rounded-[3rem] p-[8px] shadow-2xl">
+                          {/* Dynamic Island */}
+                          <div className="absolute top-[12px] left-1/2 -translate-x-1/2 w-[90px] h-[28px] bg-black rounded-full z-20"></div>
+                          {/* Screen */}
+                          <div className="relative rounded-[2.5rem] overflow-hidden bg-white">
+                            <img 
+                              src="assets/Discover Deck - Swipe right.png" 
+                              alt="Swipe Right" 
+                              className="w-full h-auto"
+                            />
+                            </div>
+                        </div>
+                        {/* Swipe Right Indicator */}
+                        <div className="absolute -right-8 top-1/2 -translate-y-1/2 bg-accent-green text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg flex items-center gap-2">
+                          Like
+                          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                          </svg>
+                    </div>
+                    </div>
+                </div>
+                    
+                    {/* Floating Match Badge */}
+                    <div className="absolute top-[0%] right-[15%] bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl px-5 py-3 z-30 animate-bounce">
+                      <div className="flex items-center gap-2">
+                        <span className="text-2xl">🎉</span>
+                        <span className="text-sm font-bold text-primary">It's a Match!</span>
+            </div>
+        </div>
+                    
+                    {/* Floating Hearts */}
+                    {/* Removed floating heart */}
+                    {/* Removed sparkle */}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* INTEGRATIONS INCOMING LAYER */}
+            <div
+              className="absolute inset-0 pointer-events-none flex items-center justify-center px-6"
+              style={{
+                transform: `translateY(${incomingTranslate}%)`,
+                opacity: incomingOpacity,
+                transition: 'transform 120ms linear, opacity 180ms linear'
+              }}
+            >
+              <div className="pointer-events-auto max-w-[1280px] w-full">
+                <div className="bg-white/95 backdrop-blur-md rounded-[2rem] shadow-2xl border border-outline/50 p-6 sm:p-10">
+                  {/* Section Header */}
+                  <div className="text-center mb-10">
+                    <span className="inline-block bg-accent-purple/10 text-accent-purple px-4 py-1.5 rounded-full text-sm font-medium mb-4">
+                      🔗 Enterprise Integrations
+                    </span>
+                    <h2 className="font-montserrat font-bold text-3xl sm:text-4xl text-primary mb-3">
+                      Powered by Trusted Integrations
+                    </h2>
+                    <p className="text-base sm:text-lg text-subtitle max-w-3xl mx-auto leading-relaxed">
+                      We securely connect to Meta to read influencer insights and performance stats, and use Stripe Connect to onboard creators and send payouts seamlessly.
+                    </p>
+                  </div>
+
+                  <div className="grid md:grid-cols-2 gap-6">
+                    {integrations.map((integration, index) => (
+                      <article 
+                        key={index}
+                        className={`integration-card ${integration.color === 'blue' ? 'integration-card--meta' : 'integration-card--stripe'} bg-white rounded-3xl p-7 border border-outline/50 shadow-lg transition-all duration-300`}
+                        style={{ transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}
+                      >
+                        <div className={`integration-logo w-18 h-18 rounded-full overflow-hidden flex items-center justify-center mb-5 ${
+                          integration.color === 'blue' ? 'bg-blue-50' : 'bg-purple-50'
+                        }`}>
+                          <img 
+                            src={integration.logoSrc} 
+                            alt={`${integration.name} logo`}
+                            className="w-12 h-12 object-contain rounded-full"
+                          />
+                        </div>
+                        <h3 className="font-montserrat font-bold text-xl text-primary mb-2">
+                          {integration.title}
+                        </h3>
+                        <p className="text-subtitle text-sm mb-5">
+                          {integration.description}
+                        </p>
+                        <ul className="space-y-3">
+                          {integration.features.map((feature, i) => (
+                            <li key={i} className="flex items-start gap-3">
+                              <span className={`integration-bullet w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${
+                                integration.color === 'blue' 
+                                  ? 'bg-blue-100 text-blue-600' 
+                                  : 'bg-purple-100 text-purple-600'
+                              }`}>
+                                <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+                              </span>
+                              <span className="text-primary text-sm">{feature}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </article>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+        </div>
+    </section>
+      );
+    };
+
+    // ============================================
+    // INTEGRATIONS SECTION - Meta & Stripe Connect
+    // ============================================
+    const IntegrationsSection = () => {
+      const [revealed, setRevealed] = useState(false);
+      const sectionRef = React.useRef(null);
+
+      useEffect(() => {
+        if (!sectionRef.current) return;
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                setRevealed(true);
+                observer.disconnect();
+              }
+            });
+          },
+          { threshold: 0.2 }
+        );
+        observer.observe(sectionRef.current);
+        return () => observer.disconnect();
+      }, []);
+
+      const integrations = [
+        {
+          name: 'Meta',
+          title: 'Meta Insights Sync',
+          description: 'Connect Instagram and Facebook creator accounts to automatically fetch key performance metrics such as reach, engagement, audience breakdown, and content performance.',
+          features: [
+            'Pull stats automatically from connected accounts',
+            'Keep creator profiles always up to date',
+            'Standardized metrics for easy comparisons',
+            'Audience demographics & insights',
+            'Content performance analytics'
+          ],
+          color: 'blue',
+          logoSrc: 'assets/META.png'
+        },
+        {
+          name: 'Stripe',
+          title: 'Stripe Connect Payouts',
+          description: 'Onboard creators with Stripe Connect and automate secure payments, payouts, and invoicing with full compliance and reporting.',
+          features: [
+            'Marketplace-ready instant payouts',
+            'Seamless creator onboarding flow',
+            'Transparent fees and reporting',
+            'Global payment support',
+            'Automated tax compliance'
+          ],
+          color: 'purple',
+          logoSrc: 'assets/Stripe-logo.png'
+        }
+      ];
+
+
+      return (
+        <section
+          ref={sectionRef}
+          className="integrations-section relative py-24 bg-gradient-to-b from-white via-secondary/20 to-white overflow-hidden"
+        >
+          <div className="max-w-[1280px] mx-auto px-6">
+            {/* Section Header */}
+            <div className={`text-center mb-16 transition-all duration-600 ease-out ${
+              revealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'
+            }`}>
+              <div className="flex items-center justify-center gap-3 mb-2">
+                
+                <h2 className="font-montserrat font-bold text-3xl sm:text-4xl lg:text-5xl text-primary">
+                  Powered by Trusted Integrations
+                </h2>
+              </div>
+              <p className="text-lg text-subtitle max-w-3xl mx-auto leading-relaxed">
+                We securely connect to <strong>Meta</strong> to read influencer insights and performance stats, 
+                and use <strong>Stripe Connect</strong> to onboard creators and send payouts seamlessly.
+              </p>
+            </div>
+            
+            {/* Integration Cards */}
+            <div className={`grid md:grid-cols-2 gap-8 mb-12 transition-all duration-700 ease-out ${
+              revealed ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+            }`}>
+              {integrations.map((integration, index) => (
+                <article 
+                  key={index}
+                  className={`integration-card ${integration.color === 'blue' ? 'integration-card--meta' : 'integration-card--stripe'} bg-white rounded-3xl p-8 lg:p-10 border border-outline/50 shadow-lg transition-all duration-300`}
+                  style={{ transitionTimingFunction: 'cubic-bezier(0.16, 1, 0.3, 1)' }}
+                >
+                  {/* Logo */}
+                  <div className={`integration-logo w-20 h-20 rounded-full overflow-hidden flex items-center justify-center mb-6 ${
+                    integration.color === 'blue' 
+                      ? 'bg-blue-50' 
+                      : 'bg-purple-50'
+                  }`}>
+                    <img 
+                      src={integration.logoSrc} 
+                      alt={`${integration.name} logo`}
+                      className="w-12 h-12 object-contain rounded-full"
+                    />
+                    </div>
+
+                  {/* Title */}
+                  <h3 className="font-montserrat font-bold text-2xl text-primary mb-3">
+                    {integration.title}
+                  </h3>
+
+                  {/* Description */}
+                  <p className="text-subtitle leading-relaxed mb-6">
+                    {integration.description}
+                  </p>
+
+                  {/* Features List */}
+                  <ul className="space-y-3">
+                    {integration.features.map((feature, i) => (
+                      <li key={i} className="flex items-start gap-3">
+                              <span className="integration-bullet w-5 h-5 rounded-full flex items-center justify-center shrink-0 mt-0.5 bg-white">
+                                <img
+                                  src="assets/icons/handshake.png"
+                                  alt="integration point"
+                                  className="w-4 h-4 object-contain"
+                                />
+                              </span>
+                        <span className="text-primary text-sm">{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </article>
+              ))}
+                </div>
+                
+                    </div>
+        </section>
+      );
+    };
+
+    // (WorldInfluencersSection removed per request)
+    // ============================================
+    // WORKFLOWS COMPONENT - Stacked Scroll Animation
+    // ============================================
+    const Workflows = () => {
+      const [scrollProgress, setScrollProgress] = useState(0);
+      const sectionRef = React.useRef(null);
+
+      useEffect(() => {
+        const handleScroll = () => {
+          if (!sectionRef.current) return;
+          
+          const rect = sectionRef.current.getBoundingClientRect();
+          const sectionHeight = sectionRef.current.offsetHeight;
+          const viewportHeight = window.innerHeight;
+          
+          // Calculate progress (0 to 1) based on scroll position within section
+          const scrolled = -rect.top;
+          const totalScrollable = sectionHeight - viewportHeight;
+          const progress = Math.max(0, Math.min(1, scrolled / totalScrollable));
+          
+          setScrollProgress(progress);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        handleScroll();
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, []);
+
+      const steps = [
+        {
+          step: '01',
+          title: 'Create Your Profile',
+          description: 'Sign up in seconds and build your creator profile. Connect your social accounts and let brands discover you.',
+          image: 'assets/Influencer Registration.png',
+          color: 'from-accent-pink/20 to-accent-orange/20',
+          chipColor: 'bg-accent-pink',
+          features: ['Quick sign-up process', 'Connect social accounts', 'Showcase your content']
+        },
+        {
+          step: '02',
+          title: 'Discover & Match',
+          description: 'Swipe through campaigns that match your niche. Like what you see? Swipe right and get matched instantly with brands.',
+          image: 'assets/Discover Deck - Onboarding.png',
+          color: 'from-accent-orange/20 to-accent-green/20',
+          chipColor: 'bg-accent-orange',
+          features: ['Personalized campaign feed', 'Smart matching algorithm', 'Filter by niche & budget']
+        },
+        {
+          step: '03',
+          title: 'Collaborate & Earn',
+          description: 'Chat directly with brands, negotiate deals, and get paid securely. Your success story starts here.',
+          image: 'assets/Influencer - Messages list.png',
+          color: 'from-accent-green/20 to-accent-pink/20',
+          chipColor: 'bg-accent-green',
+          features: ['In-app messaging', 'Secure payments', 'Track your earnings']
+        }
+      ];
+
+      // Calculate which card should be on top based on scroll progress
+      const getCardStyle = (index) => {
+        // scrollProgress goes from 0 to 1 as user scrolls through section
+        // Card 0 is always visible, cards 1 and 2 slide up over previous cards
+        
+        if (index === 0) {
+          // First card is always in place
+          return {
+            transform: 'translateY(0%)',
+            zIndex: 10,
+            opacity: 1,
+          };
+        }
+        
+        const totalCards = 3;
+        // Card 1 starts appearing at 33% scroll, Card 2 at 66%
+        const cardThreshold = index / totalCards;
+        
+        // How much has this card progressed (0 to 1 for this card's animation)
+        const cardLocalProgress = Math.max(0, (scrollProgress - cardThreshold) / (1 / totalCards));
+        
+        // Card slides from bottom (100%) to top (0%)
+        const translateY = Math.max(0, 100 - (cardLocalProgress * 100));
+        
+        // Z-index increases with each card
+        const zIndex = 10 + index;
+        
+        // Opacity - start fading in slightly before threshold
+        const opacity = scrollProgress >= (cardThreshold - 0.05) ? Math.min(1, cardLocalProgress * 2) : 0;
+
+        return {
+          transform: `translateY(${translateY}%)`,
+          zIndex,
+          opacity,
+        };
+      };
+
+      return (
+        <section id="how-it-works" ref={sectionRef} className="stacked-section bg-gradient-to-b from-secondary/30 via-white to-secondary/30">
+          {/* Section Header - Fixed at top */}
+          <div className="sticky top-0 z-50 pt-8 pb-4 bg-gradient-to-b from-secondary/80 to-transparent backdrop-blur-sm">
+            <div className="text-center">
+              <h2 className="font-montserrat font-bold text-3xl sm:text-4xl lg:text-5xl text-primary mb-2">
+                Start Earning in 3 Simple Steps
+              </h2>
+              <p className="text-lg text-subtitle max-w-2xl mx-auto">
+                Our streamlined process makes it easy to connect with brands
+              </p>
+              {/* Progress Indicator */}
+              <div className="flex justify-center gap-3 mt-6">
+                {[0, 1, 2].map((i) => (
+                  <div 
+                    key={i} 
+                    className={`h-2 rounded-full transition-all duration-300 ${
+                      scrollProgress * 3 > i ? 'w-12 bg-accent-green' : 'w-8 bg-outline'
+                    }`}
+                  />
+                ))}
+                    </div>
+            </div>
+                </div>
+                
+          {/* Stacked Cards Container */}
+          <div className="stacked-container">
+            {steps.map((step, index) => (
+              <div 
+                key={index}
+                className="stacked-card"
+                style={getCardStyle(index)}
+              >
+                <div className={`stacked-card-inner bg-gradient-to-br ${step.color}`}>
+                  <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center w-full p-4 sm:p-8">
+                    {/* Text Content */}
+                    <div className={`space-y-6 ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
+                      <div className="flex items-center gap-4">
+                        <span className="font-montserrat font-bold text-7xl sm:text-8xl text-primary/10">
+                          {step.step}
+                        </span>
+                    </div>
+                      
+                      <h3 className="font-montserrat font-bold text-3xl sm:text-4xl text-primary">
+                        {step.title}
+                      </h3>
+                      
+                      <p className="text-lg text-subtitle leading-relaxed">
+                        {step.description}
+                      </p>
+                      
+                      <ul className="space-y-3">
+                        {step.features.map((feature, i) => (
+                          <li key={i} className="flex items-center gap-3">
+                            <span className="w-6 h-6 bg-white rounded-full flex items-center justify-center shadow-sm">
+                              <img src="assets/icons/handshake.png" alt="" className="w-4 h-4 object-contain" />
+                            </span>
+                            <span className="text-primary font-medium">{feature}</span>
+                          </li>
+                        ))}
+                      </ul>
+                </div>
+                
+                    {/* Phone Mockup */}
+                    <div className={`flex justify-center ${index % 2 === 1 ? 'lg:order-1' : ''}`}>
+                      <div className="relative">
+                        {/* iPhone Frame */}
+                        <div className="w-[260px] sm:w-[300px] lg:w-[320px] bg-black rounded-[3rem] p-[10px] shadow-2xl transform hover:scale-105 transition-transform duration-500">
+                          {/* Dynamic Island */}
+                          <div className="absolute top-[14px] left-1/2 -translate-x-1/2 w-[100px] h-[30px] bg-black rounded-full z-20"></div>
+                          {/* Screen */}
+                          <div className="relative rounded-[2.5rem] overflow-hidden bg-white">
+                            <img 
+                              src={step.image}
+                              alt={step.title}
+                              className="w-full h-auto"
+                            />
+                    </div>
+                </div>
+                
+                        {/* Decorative Elements */}
+                        <div className={`absolute -z-10 w-full h-full rounded-[3rem] top-4 -right-4 ${step.chipColor}/20`}></div>
+                        
+                        {/* Floating Badge */}
+            </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+        </div>
+    </section>
+      );
+    };
+
+    // ============================================
+    // COMBINED SWIPE SECTION - Hover Left/Right Interactive
+    // ============================================
+    const SwipeInteractiveSection = () => {
+      const [hoverSide, setHoverSide] = useState(null); // 'left', 'right', or null
+      const [leftState, setLeftState] = useState(0);
+      const [rightState, setRightState] = useState(0);
+      const leftIntervalRef = React.useRef(null);
+      const rightIntervalRef = React.useRef(null);
+
+      // Animate through states when hovering
+      const startLeftAnimation = () => {
+        setLeftState(0);
+        let state = 0;
+        leftIntervalRef.current = setInterval(() => {
+          state = (state + 1) % 4;
+          setLeftState(state);
+        }, 800);
+      };
+
+      const stopLeftAnimation = () => {
+        if (leftIntervalRef.current) {
+          clearInterval(leftIntervalRef.current);
+          leftIntervalRef.current = null;
+        }
+        setLeftState(0);
+      };
+
+      const startRightAnimation = () => {
+        setRightState(0);
+        let state = 0;
+        rightIntervalRef.current = setInterval(() => {
+          state = (state + 1) % 4;
+          setRightState(state);
+        }, 800);
+      };
+
+      const stopRightAnimation = () => {
+        if (rightIntervalRef.current) {
+          clearInterval(rightIntervalRef.current);
+          rightIntervalRef.current = null;
+        }
+        setRightState(0);
+      };
+
+      useEffect(() => {
+        return () => {
+          if (leftIntervalRef.current) clearInterval(leftIntervalRef.current);
+          if (rightIntervalRef.current) clearInterval(rightIntervalRef.current);
+        };
+      }, []);
+
+      // Left states: 0=card, 1=tilting left, 2=swiping out, 3=not interested
+      // Right states: 0=card, 1=tilting right, 2=swiping out, 3=interested
+
+      return (
+        <section className="py-24 bg-gradient-to-b from-white via-secondary/30 to-white overflow-hidden">
+          <div className="max-w-[1280px] mx-auto px-6">
+            {/* Section Header */}
+            <div className="text-center mb-12">
+              <h2 className="font-montserrat font-bold text-3xl sm:text-4xl lg:text-5xl text-primary mb-4">
+                Swipe to <span className="text-accent-green">Like</span> or <span className="text-accent-orange">Decline</span>
+              </h2>
+              <p className="text-lg text-subtitle max-w-2xl mx-auto">
+                Hover over left or right side to see how the swipe gestures work
+              </p>
+            </div>
+            
+            {/* Interactive Area */}
+            <div className="relative flex justify-center items-center min-h-[600px]">
+              
+              {/* Left Hover Zone */}
+              <div 
+                className={`absolute left-0 top-0 bottom-0 w-1/2 cursor-pointer z-10 transition-all duration-300 ${
+                  hoverSide === 'left' ? 'bg-gradient-to-r from-accent-orange/10 to-transparent' : ''
+                }`}
+                onMouseEnter={() => { setHoverSide('left'); startLeftAnimation(); }}
+                onMouseLeave={() => { setHoverSide(null); stopLeftAnimation(); }}
+              >
+                <div className={`absolute left-8 top-1/2 -translate-y-1/2 transition-all duration-300 ${
+                  hoverSide === 'left' ? 'opacity-100 translate-x-0' : 'opacity-50 -translate-x-4'
+                }`}>
+                  <div className="flex items-center gap-3">
+                    <div className={`w-16 h-16 rounded-full flex items-center justify-center transition-all ${
+                      hoverSide === 'left' ? 'bg-accent-orange text-white scale-110' : 'bg-accent-orange/20 text-accent-orange'
+                    }`}>
+                      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                    </div>
+                    <div className={`transition-all ${hoverSide === 'left' ? 'opacity-100' : 'opacity-0'}`}>
+                      <p className="font-bold text-accent-orange text-lg">Swipe Left</p>
+                      <p className="text-sm text-subtitle">Not interested</p>
+                                    </div>
+                </div>
+                
+                  {/* Step indicators for left */}
+                  <div className={`flex gap-2 mt-4 ml-2 transition-all ${hoverSide === 'left' ? 'opacity-100' : 'opacity-0'}`}>
+                    {[0, 1, 2, 3].map((i) => (
+                      <div key={i} className={`w-2 h-2 rounded-full transition-all ${
+                        leftState === i ? 'bg-accent-orange scale-125' : 'bg-accent-orange/30'
+                      }`} />
+                    ))}
+                            </div>
+                        </div>
+                        </div>
+
+              {/* Right Hover Zone */}
+              <div 
+                className={`absolute right-0 top-0 bottom-0 w-1/2 cursor-pointer z-10 transition-all duration-300 ${
+                  hoverSide === 'right' ? 'bg-gradient-to-l from-accent-green/10 to-transparent' : ''
+                }`}
+                onMouseEnter={() => { setHoverSide('right'); startRightAnimation(); }}
+                onMouseLeave={() => { setHoverSide(null); stopRightAnimation(); }}
+              >
+                <div className={`absolute right-8 top-1/2 -translate-y-1/2 transition-all duration-300 ${
+                  hoverSide === 'right' ? 'opacity-100 translate-x-0' : 'opacity-50 translate-x-4'
+                }`}>
+                  <div className="flex items-center gap-3 flex-row-reverse">
+                    <div className={`w-16 h-16 rounded-full flex items-center justify-center transition-all ${
+                      hoverSide === 'right' ? 'bg-accent-green text-white scale-110' : 'bg-accent-green/20 text-accent-green'
+                    }`}>
+                      <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                        </svg>
+                    </div>
+                    <div className={`text-right transition-all ${hoverSide === 'right' ? 'opacity-100' : 'opacity-0'}`}>
+                      <p className="font-bold text-accent-green text-lg">Swipe Right</p>
+                      <p className="text-sm text-subtitle">Interested</p>
+                </div>
+                </div>
+                
+                  {/* Step indicators for right */}
+                  <div className={`flex gap-2 mt-4 justify-end mr-2 transition-all ${hoverSide === 'right' ? 'opacity-100' : 'opacity-0'}`}>
+                    {[0, 1, 2, 3].map((i) => (
+                      <div key={i} className={`w-2 h-2 rounded-full transition-all ${
+                        rightState === i ? 'bg-accent-green scale-125' : 'bg-accent-green/30'
+                      }`} />
+                    ))}
+        </div>
+                                    </div>
+                                        </div>
+
+              {/* Center Phone */}
+              <div className="relative z-20">
+                <div className="w-[280px] sm:w-[300px] lg:w-[320px] bg-black rounded-[2.5rem] p-[8px] shadow-2xl">
+                  <div className="absolute top-[10px] left-1/2 -translate-x-1/2 w-[80px] h-[24px] bg-black rounded-full z-50"></div>
+                  
+                  <div 
+                    className={`relative rounded-[2rem] overflow-hidden transition-all duration-500 ${
+                      hoverSide === 'left' ? 'bg-gradient-to-b from-[#FFE4E4] to-[#FFC8C8]' :
+                      hoverSide === 'right' ? 'bg-gradient-to-b from-[#E8F5E9] to-[#C8E6C9]' :
+                      'bg-gradient-to-b from-secondary to-[#E8DDD5]'
+                    }`}
+                    style={{ aspectRatio: '390/780' }}
+                  >
+                    {/* Status Bar */}
+                    <div className="absolute top-0 left-0 right-0 h-12 flex items-center justify-between px-6 pt-8 z-40">
+                      <span className="text-sm font-medium text-primary">9:41</span>
+                      <div className="flex items-center gap-1">
+                        <svg className="w-4 h-4 text-primary" viewBox="0 0 20 14" fill="currentColor">
+                          <rect x="0" y="9" width="3" height="5" rx="1"/>
+                          <rect x="5" y="6" width="3" height="8" rx="1"/>
+                          <rect x="10" y="3" width="3" height="11" rx="1"/>
+                          <rect x="15" y="0" width="3" height="14" rx="1"/>
+                        </svg>
+                        <div className="w-6 h-3 bg-primary rounded-sm relative">
+                          <div className={`absolute inset-[2px] rounded-sm transition-colors ${
+                            hoverSide === 'left' ? 'bg-accent-orange' : 
+                            hoverSide === 'right' ? 'bg-accent-green' : 'bg-accent-green'
+                          }`} style={{width: '80%'}}></div>
+                    </div>
+                                        </div>
+                </div>
+                
+                    {/* Header */}
+                    <div className="absolute top-16 left-0 right-0 flex items-center justify-between px-5 z-40">
+                      <h3 className="text-2xl font-bold text-primary">Discover</h3>
+                      <div className="flex gap-2">
+                        <div className="w-10 h-10 bg-white/80 rounded-full flex items-center justify-center shadow-sm">
+                          <img src="assets/Filter.png" alt="Filter" className="w-6 h-6 object-contain" />
+                                    </div>
+                        <div className="w-10 h-10 bg-white/80 rounded-full flex items-center justify-center shadow-sm">
+                          <img src="assets/Filter2.png" alt="Filter options" className="w-6 h-6 object-contain" />
+                                    </div>
+                                </div>
+                            </div>
+                    
+                    {/* Content Area */}
+                    <div className="absolute inset-0 top-28 bottom-20 flex items-center justify-center">
+                      
+                      {/* Not Interested Message (Left final state) */}
+                      <div className={`absolute inset-0 flex flex-col items-center justify-center transition-all duration-500 ${
+                        hoverSide === 'left' && leftState === 3 ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                      }`}>
+                        <div className="w-16 h-16 border-2 border-accent-orange/50 rounded-full flex items-center justify-center mb-4">
+                          <svg className="w-8 h-8 text-accent-orange/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </div>
+                        <p className="text-accent-orange/70 text-lg font-medium">Not interested</p>
+                </div>
+                
+                      {/* Interested Message (Right final state) */}
+                      <div className={`absolute inset-0 flex flex-col items-center justify-center transition-all duration-500 ${
+                        hoverSide === 'right' && rightState === 3 ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                      }`}>
+                        <div className="w-16 h-16 border-2 border-accent-green/50 rounded-full flex items-center justify-center mb-4">
+                          <svg className="w-8 h-8 text-accent-green/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                        <p className="text-accent-green/70 text-lg font-medium">Interested</p>
+                </div>
+                
+                      {/* The Card */}
+                      <div 
+                        className={`absolute w-[85%] transition-all ${
+                          // Left swipe states
+                          hoverSide === 'left' && leftState === 0 ? 'opacity-100 translate-x-0 blur-0 scale-100 rotate-0' :
+                          hoverSide === 'left' && leftState === 1 ? 'opacity-100 translate-x-[-20%] blur-[2px] scale-105 rotate-[-15deg]' :
+                          hoverSide === 'left' && leftState === 2 ? 'opacity-100 translate-x-[-60%] blur-[8px] scale-110 rotate-[-5deg]' :
+                          hoverSide === 'left' && leftState === 3 ? 'opacity-0 translate-x-[-150%]' :
+                          // Right swipe states
+                          hoverSide === 'right' && rightState === 0 ? 'opacity-100 translate-x-0 blur-0 scale-100 rotate-0' :
+                          hoverSide === 'right' && rightState === 1 ? 'opacity-100 translate-x-[20%] blur-[2px] scale-105 rotate-[15deg]' :
+                          hoverSide === 'right' && rightState === 2 ? 'opacity-100 translate-x-[60%] blur-[8px] scale-110 rotate-[5deg]' :
+                          hoverSide === 'right' && rightState === 3 ? 'opacity-0 translate-x-[150%]' :
+                          // Default state
+                          'opacity-100 translate-x-0 blur-0 scale-100 rotate-0'
+                        }`}
+                        style={{ 
+                          transitionDuration: '600ms',
+                          transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
+                        }}
+                      >
+                        {/* Card Glow */}
+                        <div className={`absolute -inset-4 rounded-[2rem] blur-xl transition-all duration-500 ${
+                          hoverSide === 'left' && (leftState === 1 || leftState === 2) ? 'opacity-100 bg-accent-orange/20' :
+                          hoverSide === 'right' && (rightState === 1 || rightState === 2) ? 'opacity-100 bg-accent-green/20' :
+                          'opacity-0'
+                        }`}></div>
+                        
+                        {/* Card Content */}
+                        <div className="relative bg-white rounded-[1.5rem] shadow-2xl overflow-hidden">
+                          <div className="relative h-48 sm:h-52">
+                            <img 
+                              src="assets/BrandDeckCard.png" 
+                              alt="Brand deck card"
+                              className="w-full h-full object-cover object-top"
+                              style={{ objectPosition: 'center 15%' }}
+                            />
+                            
+                            {/* Red X Badge (Left swipe) */}
+                            <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all ${
+                              hoverSide === 'left' && (leftState === 1 || leftState === 2)
+                                ? 'opacity-100 scale-100' : 'opacity-0 scale-50'
+                            }`} style={{ transitionDuration: '400ms', transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)' }}>
+                              <div className="w-20 h-20 sm:w-24 sm:h-24 bg-accent-orange rounded-full flex items-center justify-center shadow-lg">
+                                <svg className="w-10 h-10 sm:w-12 sm:h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </div>
+                </div>
+                            
+                            {/* Green Heart Badge (Right swipe) */}
+                            <div className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all ${
+                              hoverSide === 'right' && (rightState === 1 || rightState === 2)
+                                ? 'opacity-100 scale-100' : 'opacity-0 scale-50'
+                            }`} style={{ transitionDuration: '400ms', transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)' }}>
+                              <div className="w-20 h-20 sm:w-24 sm:h-24 bg-accent-green rounded-full flex items-center justify-center shadow-lg">
+                                <svg className="w-10 h-10 sm:w-12 sm:h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                </svg>
+            </div>
+        </div>
+                                        </div>
+
+                          <div className="p-4">
+                            <h4 className="font-bold text-primary text-lg mb-1">France Freed</h4>
+                            <div className="flex items-center gap-2 mb-2 flex-wrap">
+                              <span className="bg-secondary px-2 py-0.5 rounded-full text-xs">👥 3.2M</span>
+                              <span className="bg-secondary px-2 py-0.5 rounded-full text-xs">🍳 Food</span>
+                              <span className="bg-secondary px-2 py-0.5 rounded-full text-xs">💰 $400</span>
+                                    </div>
+                            <p className="text-xs text-subtitle line-clamp-2">
+                              Capturing moments that feel like sunlight. Curating calm, color, and everyday magic.
+                            </p>
+                                    </div>
+                                </div>
+                            </div>
+            </div>
+            
+                    {/* Bottom Navigation */}
+                    <div className="absolute bottom-0 left-0 right-0 z-40">
+                      <img 
+                        src="assets/BottomMenu.png" 
+                        alt="Navigation" 
+                        className="w-full"
+                      />
+                                    </div>
+                                    </div>
+                                </div>
+                
+                {/* Decorative elements */}
+                <div className={`absolute -bottom-8 -right-8 w-32 h-32 rounded-full blur-2xl transition-all duration-500 ${
+                  hoverSide === 'right' ? 'bg-accent-green/20' : 
+                  hoverSide === 'left' ? 'bg-accent-orange/20' : 'bg-primary/5'
+                }`}></div>
+                <div className={`absolute -top-8 -left-8 w-24 h-24 rounded-full blur-2xl transition-all duration-500 ${
+                  hoverSide === 'left' ? 'bg-accent-orange/20' : 
+                  hoverSide === 'right' ? 'bg-accent-green/20' : 'bg-primary/5'
+                }`}></div>
+                            </div>
+                        </div>
+            
+            {/* Instructions */}
+            <div className="text-center mt-8">
+              <p className="text-subtitle text-sm">
+                👈 Hover left to decline • Hover right to like 👉
+              </p>
+                        </div>
+                    </div>
+    </section>
+      );
+    };
+
+    // ============================================
+    // SWIPE LEFT SECTION - 4-Frame Animation (Keep for scroll version)
+    // ============================================
+    const SwipeLeftSection = () => {
+      const [currentState, setCurrentState] = useState('d');
+      const sectionRef = React.useRef(null);
+
+      useEffect(() => {
+        const handleScroll = () => {
+          if (!sectionRef.current) return;
+          
+          const rect = sectionRef.current.getBoundingClientRect();
+          const viewportHeight = window.innerHeight;
+          const sectionHeight = sectionRef.current.offsetHeight;
+          
+          const scrolled = -rect.top;
+          const totalScrollable = sectionHeight - viewportHeight;
+          const scrollProgress = Math.max(0, Math.min(1, scrolled / totalScrollable));
+          
+          if (scrollProgress < 0.25) setCurrentState('d');
+          else if (scrollProgress < 0.5) setCurrentState('c');
+          else if (scrollProgress < 0.75) setCurrentState('b');
+          else setCurrentState('a');
+        };
+        
+        window.addEventListener('scroll', handleScroll);
+        handleScroll();
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, []);
+
+      return (
+        <section 
+          ref={sectionRef}
+          className="relative bg-gradient-to-b from-white via-[#FFF5F5] to-[#FFE8E8]"
+          style={{ height: '300vh' }} /* Tall section for scroll-based animation */
+        >
+          {/* Sticky container that stays in view during scroll */}
+          <div className="sticky top-0 min-h-screen py-8 overflow-visible flex flex-col justify-center">
+          <div className="max-w-[1280px] mx-auto px-6">
+            {/* Section Header */}
+            <div className="text-center mb-12">
+              <span className="inline-block bg-accent-orange/10 text-accent-orange px-4 py-1.5 rounded-full text-sm font-medium mb-4">
+                👈 Swipe Left
+              </span>
+              <h2 className="font-montserrat font-bold text-3xl sm:text-4xl lg:text-5xl text-primary mb-4">
+                Not Your Vibe? <span className="gradient-text">Skip It</span>
+              </h2>
+              <p className="text-lg text-subtitle max-w-2xl mx-auto mb-6">
+                See how easy it is to pass on campaigns that don't match your style
+              </p>
+              
+              {/* State Indicators */}
+              <div className="flex justify-center gap-2 mb-8">
+                {['d', 'c', 'b', 'a'].map((state, i) => (
+                  <div
+                    key={state}
+                    className={`w-3 h-3 rounded-full transition-all ${
+                      currentState === state ? 'bg-accent-orange scale-125' : 'bg-outline'
+                    }`}
+                  />
+                ))}
+                                    </div>
+              <p className="text-sm text-subtitle">↓ Scroll to see the animation</p>
+                </div>
+                
+            {/* Phone Container */}
+            <div className="flex justify-center">
+              <div className="relative">
+                {/* iPhone Frame */}
+                <div className="w-[280px] sm:w-[300px] lg:w-[320px] bg-black rounded-[2.5rem] p-[8px] shadow-2xl">
+                  {/* Dynamic Island */}
+                  <div className="absolute top-[10px] left-1/2 -translate-x-1/2 w-[80px] h-[24px] bg-black rounded-full z-50"></div>
+                  
+                  {/* Phone Screen */}
+                  <div 
+                    className="relative rounded-[2rem] overflow-hidden bg-gradient-to-b from-[#FFE4E4] to-[#FFC8C8]"
+                    style={{ aspectRatio: '390/780' }}
+                  >
+                    {/* Status Bar */}
+                    <div className="absolute top-0 left-0 right-0 h-12 flex items-center justify-between px-6 pt-8 z-40">
+                      <span className="text-sm font-medium text-primary">9:41</span>
+                      <div className="flex items-center gap-1">
+                        <svg className="w-4 h-4 text-primary" viewBox="0 0 20 14" fill="currentColor">
+                          <rect x="0" y="9" width="3" height="5" rx="1"/>
+                          <rect x="5" y="6" width="3" height="8" rx="1"/>
+                          <rect x="10" y="3" width="3" height="11" rx="1"/>
+                          <rect x="15" y="0" width="3" height="14" rx="1"/>
+                        </svg>
+                        <svg className="w-4 h-4 text-primary" viewBox="0 0 16 12" fill="currentColor">
+                          <path d="M8 12l-4-4c2.2-2.2 5.8-2.2 8 0l-4 4zm-6-6c3.3-3.3 8.7-3.3 12 0l-1.4 1.4c-2.5-2.5-6.7-2.5-9.2 0L2 6z"/>
+                        </svg>
+                        <div className="w-6 h-3 bg-primary rounded-sm relative">
+                          <div className="absolute inset-[2px] bg-accent-green rounded-sm" style={{width: '80%'}}></div>
+                                        </div>
+                                    </div>
+                                        </div>
+                    
+                    {/* Header */}
+                    <div className="absolute top-16 left-0 right-0 flex items-center justify-between px-5 z-40">
+                      <h3 className="text-2xl font-bold text-primary">Discover</h3>
+                      <div className="flex gap-2">
+                        <div className="w-10 h-10 bg-white/80 rounded-full flex items-center justify-center shadow-sm">
+                          <span className="text-subtitle">?</span>
+                                            </div>
+                        <div className="w-10 h-10 bg-white/80 rounded-full flex items-center justify-center shadow-sm">
+                          <span className="text-subtitle">⚙</span>
+                                        </div>
+                                    </div>
+                                    </div>
+                    
+                    {/* Content Area */}
+                    <div className="absolute inset-0 top-28 bottom-20 flex items-center justify-center">
+                      
+                      {/* State A: Not interested message */}
+                      <div 
+                        className={`absolute inset-0 flex flex-col items-center justify-center transition-all duration-500 ${
+                          currentState === 'a' ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                        }`}
+                      >
+                        <div className="w-16 h-16 border-2 border-accent-orange/50 rounded-full flex items-center justify-center mb-4">
+                          <svg className="w-8 h-8 text-accent-orange/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                          </svg>
+                                </div>
+                        <p className="text-accent-orange/70 text-lg font-medium">Not interested</p>
+                            </div>
+                      
+                      {/* Card - States B, C, D */}
+                      <div 
+                        className={`absolute w-[85%] transition-all ${
+                          currentState === 'a' ? 'opacity-0 translate-x-[-150%]' :
+                          currentState === 'b' ? 'opacity-100 translate-x-[-60%] blur-[8px] scale-110 rotate-[-5deg]' :
+                          currentState === 'c' ? 'opacity-100 translate-x-[-20%] blur-[2px] scale-105 rotate-[-15deg]' :
+                          'opacity-100 translate-x-0 blur-0 scale-100 rotate-0'
+                        }`}
+                        style={{ 
+                          transitionDuration: '800ms',
+                          transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
+                        }}
+                      >
+                        {/* Card Glow Effect */}
+                        <div className={`absolute -inset-4 bg-black/10 rounded-[2rem] blur-xl transition-opacity duration-500 ${
+                          currentState === 'c' || currentState === 'd' ? 'opacity-100' : 'opacity-0'
+                        }`}></div>
+                        
+                        {/* Card Content */}
+                        <div className="relative bg-white rounded-[1.5rem] shadow-2xl overflow-hidden">
+                          {/* Card Image */}
+                          <div className="relative h-48 sm:h-56">
+                            <img 
+                              src="assets/Discover Deck - Onboarding1.png" 
+                              alt="Campaign"
+                              className="w-full h-full object-cover object-top"
+                              style={{ objectPosition: 'center 20%' }}
+                            />
+                            
+                            {/* Red Badge Overlay */}
+                            <div 
+                              className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all ${
+                                currentState === 'c' || currentState === 'd' 
+                                  ? 'opacity-100 scale-100' 
+                                  : 'opacity-0 scale-50'
+                              }`}
+                              style={{ 
+                                transitionDuration: '500ms',
+                                transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+                                transitionDelay: currentState === 'c' ? '200ms' : '0ms'
+                              }}
+                            >
+                              <div className={`w-20 h-20 sm:w-24 sm:h-24 bg-accent-orange rounded-full flex items-center justify-center shadow-lg ${
+                                currentState === 'd' ? 'animate-pulse' : ''
+                              }`}>
+                                <svg className="w-10 h-10 sm:w-12 sm:h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" transform="rotate(45 12 12)"/>
+                                </svg>
+                        </div>
+                        </div>
+                            
+                            {/* Copy Icon */}
+                            <div className="absolute top-3 right-3 w-8 h-8 bg-white/90 rounded-full flex items-center justify-center">
+                              <span className="text-xs">📋</span>
+                    </div>
+                </div>
+                
+                          {/* Card Info */}
+                          <div className="p-4">
+                            <h4 className="font-bold text-primary text-lg mb-1">New Pizza Challenge! 🍕</h4>
+                            <p className="text-subtitle text-sm mb-3">PizzaMat Restaurant</p>
+                            <div className="flex items-center gap-2 mb-3">
+                              <span className="bg-secondary px-3 py-1 rounded-full text-xs flex items-center gap-1">
+                                🍳 Food
+                              </span>
+                                        </div>
+                            <div className="flex items-center gap-3 text-xs text-subtitle">
+                              <span className="flex items-center gap-1">⏱ 2 weeks</span>
+                              <span className="flex items-center gap-1">💰 $500 - $1,500</span>
+                                    </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                </div>
+                    
+                    {/* Bottom Navigation */}
+                    <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-sm rounded-full py-2 px-4 flex justify-around items-center shadow-lg z-40">
+                      {[
+                        { icon: '🏠', label: 'Home', active: false },
+                        { icon: '🔍', label: 'Discover', active: true },
+                        { icon: '🤝', label: 'Matches', active: false },
+                        { icon: '💬', label: 'Messages', active: false },
+                        { icon: '👤', label: 'Profile', active: false },
+                      ].map((item, i) => (
+                        <div key={i} className={`flex flex-col items-center gap-0.5 ${item.active ? 'text-accent-orange' : 'text-subtitle'}`}>
+                          <span className={`text-lg ${item.active ? 'bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center text-sm' : ''}`}>
+                            {item.icon}
+                          </span>
+                          <span className="text-[10px]">{item.label}</span>
+                            </div>
+                      ))}
+                        </div>
+                        </div>
+                    </div>
+                
+                {/* Decorative Elements */}
+                <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-accent-orange/10 rounded-full blur-2xl"></div>
+                <div className="absolute -top-8 -left-8 w-24 h-24 bg-accent-pink/10 rounded-full blur-2xl"></div>
+                </div>
+            </div>
+            
+            {/* Step Labels */}
+            <div className="flex justify-center gap-4 mt-8 flex-wrap">
+              {[
+                { state: 'd', label: '1. Card Settled', desc: 'Declined campaign' },
+                { state: 'c', label: '2. Swiping Left', desc: 'Tilted reject' },
+                { state: 'b', label: '3. Card Incoming', desc: 'Blurred entry' },
+                { state: 'a', label: '4. Empty State', desc: 'No campaigns' },
+              ].map((step) => (
+                <div
+                  key={step.state}
+                  className={`px-4 py-3 rounded-2xl transition-all text-left ${
+                    currentState === step.state 
+                      ? 'bg-white shadow-lg border-2 border-accent-orange' 
+                      : 'bg-white/50 border-2 border-transparent'
+                  }`}
+                >
+                  <p className="font-semibold text-primary text-sm">{step.label}</p>
+                  <p className="text-xs text-subtitle">{step.desc}</p>
+        </div>
+              ))}
+                </div>
+                            </div>
+          </div> {/* End sticky container */}
+    </section>
+      );
+    };
+
+    // ============================================
+    // DIVIDER COMPONENT - Between Swipe Sections
+    // ============================================
+    const SwipeDivider = () => {
+      return (
+        <section className="py-20 bg-gradient-to-r from-[#FFE8E8] via-white to-[#E8F5E9]">
+          <div className="max-w-[1280px] mx-auto px-6">
+            <div className="flex flex-col md:flex-row items-center justify-center gap-8 md:gap-16">
+              {/* Left - Swipe Left */}
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 bg-accent-orange/10 rounded-full flex items-center justify-center">
+                  <span className="text-3xl">👈</span>
+            </div>
+                <div>
+                  <p className="font-montserrat font-bold text-xl text-primary">Swipe Left</p>
+                  <p className="text-sm text-subtitle">Not interested</p>
+        </div>
+                                </div>
+            
+              {/* Divider */}
+              <div className="hidden md:block w-px h-16 bg-outline"></div>
+              <div className="md:hidden h-px w-32 bg-outline"></div>
+              
+              {/* Center - VS */}
+              <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center">
+                <span className="text-white font-bold text-sm">VS</span>
+                            </div>
+              
+              {/* Divider */}
+              <div className="hidden md:block w-px h-16 bg-outline"></div>
+              <div className="md:hidden h-px w-32 bg-outline"></div>
+              
+              {/* Right - Swipe Right */}
+              <div className="flex items-center gap-4">
+                <div>
+                  <p className="font-montserrat font-bold text-xl text-primary">Swipe Right</p>
+                  <p className="text-sm text-subtitle">Show interest</p>
+                                </div>
+                <div className="w-16 h-16 bg-accent-green/10 rounded-full flex items-center justify-center">
+                  <span className="text-3xl">👉</span>
+                                    </div>
+                                </div>
+                            </div>
+                    
+            {/* Subtitle */}
+            <p className="text-center text-subtitle mt-8 max-w-lg mx-auto">
+              Two simple gestures. Endless possibilities. Discover how our swipe system connects creators with perfect opportunities.
+            </p>
+                            </div>
+    </section>
+      );
+    };
+
+    // ============================================
+    // SWIPE RIGHT SECTION - 4-Frame Animation (Green/Like)
+    // ============================================
+    const SwipeRightSection = () => {
+      const [currentState, setCurrentState] = useState('d');
+      const sectionRef = React.useRef(null);
+
+      useEffect(() => {
+        const handleScroll = () => {
+          if (!sectionRef.current) return;
+          
+          const rect = sectionRef.current.getBoundingClientRect();
+          const viewportHeight = window.innerHeight;
+          const sectionHeight = sectionRef.current.offsetHeight;
+          
+          const scrolled = -rect.top;
+          const totalScrollable = sectionHeight - viewportHeight;
+          const scrollProgress = Math.max(0, Math.min(1, scrolled / totalScrollable));
+          
+          // Order: a (Card view) -> b (Tilting) -> c (Swiping) -> d (Interested)
+          if (scrollProgress < 0.25) setCurrentState('a');      // 1. Card view
+          else if (scrollProgress < 0.5) setCurrentState('b');  // 2. Card tilting
+          else if (scrollProgress < 0.75) setCurrentState('c'); // 3. Swiping right
+          else setCurrentState('d');                             // 4. Interested
+        };
+        
+        window.addEventListener('scroll', handleScroll);
+        handleScroll();
+        return () => window.removeEventListener('scroll', handleScroll);
+      }, []);
+
+      return (
+        <section 
+          ref={sectionRef}
+          className="relative bg-gradient-to-b from-white via-[#F0FFF4] to-[#D4FFDF]"
+          style={{ height: '300vh' }}
+        >
+          <div className="sticky top-0 min-h-screen py-8 overflow-visible flex flex-col justify-center">
+            <div className="max-w-[1280px] mx-auto px-6">
+              {/* Section Header */}
+              <div className="text-center mb-8">
+                <span className="inline-block bg-accent-green/10 text-accent-green px-4 py-1.5 rounded-full text-sm font-medium mb-4">
+                  👉 Swipe Right
+                </span>
+                <h2 className="font-montserrat font-bold text-3xl sm:text-4xl lg:text-5xl text-primary mb-4">
+                  Found Your Match? <span className="text-accent-green">Like It!</span>
+                </h2>
+                <p className="text-lg text-subtitle max-w-2xl mx-auto mb-4">
+                  See how easy it is to connect with campaigns you love
+                </p>
+                
+                <div className="flex justify-center gap-2 mb-4">
+                  {['a', 'b', 'c', 'd'].map((state) => (
+                    <div
+                      key={state}
+                      className={`w-3 h-3 rounded-full transition-all ${
+                        currentState === state ? 'bg-accent-green scale-125' : 'bg-outline'
+                      }`}
+                    />
+                  ))}
+                        </div>
+                <p className="text-sm text-subtitle">↓ Scroll to see the animation</p>
+                    </div>
+            
+              {/* Phone Container */}
+              <div className="flex justify-center">
+                <div className="relative">
+                  <div className="w-[280px] sm:w-[300px] lg:w-[320px] bg-black rounded-[2.5rem] p-[8px] shadow-2xl">
+                    <div className="absolute top-[10px] left-1/2 -translate-x-1/2 w-[80px] h-[24px] bg-black rounded-full z-50"></div>
+                    
+                    <div 
+                      className="relative rounded-[2rem] overflow-hidden bg-gradient-to-b from-[#E8F5E9] to-[#C8E6C9]"
+                      style={{ aspectRatio: '390/780' }}
+                    >
+                      {/* Status Bar */}
+                      <div className="absolute top-0 left-0 right-0 h-12 flex items-center justify-between px-6 pt-8 z-40">
+                        <span className="text-sm font-medium text-primary">9:41</span>
+                        <div className="flex items-center gap-1">
+                          <svg className="w-4 h-4 text-primary" viewBox="0 0 20 14" fill="currentColor">
+                            <rect x="0" y="9" width="3" height="5" rx="1"/>
+                            <rect x="5" y="6" width="3" height="8" rx="1"/>
+                            <rect x="10" y="3" width="3" height="11" rx="1"/>
+                            <rect x="15" y="0" width="3" height="14" rx="1"/>
+                          </svg>
+                          <svg className="w-4 h-4 text-primary" viewBox="0 0 16 12" fill="currentColor">
+                            <path d="M8 12l-4-4c2.2-2.2 5.8-2.2 8 0l-4 4zm-6-6c3.3-3.3 8.7-3.3 12 0l-1.4 1.4c-2.5-2.5-6.7-2.5-9.2 0L2 6z"/>
+                          </svg>
+                          <div className="w-6 h-3 bg-primary rounded-sm relative">
+                            <div className="absolute inset-[2px] bg-accent-green rounded-sm" style={{width: '80%'}}></div>
+                                </div>
+                            </div>
+                        </div>
+                    
+                      {/* Header */}
+                      <div className="absolute top-16 left-0 right-0 flex items-center justify-between px-5 z-40">
+                        <h3 className="text-2xl font-bold text-primary">Discover</h3>
+                        <div className="flex gap-2">
+                          <div className="w-10 h-10 bg-white/80 rounded-full flex items-center justify-center shadow-sm">
+                            <span className="text-subtitle">?</span>
+                    </div>
+                          <div className="w-10 h-10 bg-white/80 rounded-full flex items-center justify-center shadow-sm">
+                            <span className="text-subtitle">⚙</span>
+                                </div>
+                            </div>
+                        </div>
+                    
+                      {/* Content Area */}
+                      <div className="absolute inset-0 top-28 bottom-20 flex items-center justify-center">
+                        
+                        {/* State D: Interested message */}
+                        <div 
+                          className={`absolute inset-0 flex flex-col items-center justify-center transition-all duration-500 ${
+                            currentState === 'd' ? 'opacity-100' : 'opacity-0 pointer-events-none'
+                          }`}
+                        >
+                          <div className="w-16 h-16 border-2 border-accent-green/50 rounded-full flex items-center justify-center mb-4">
+                            <svg className="w-8 h-8 text-accent-green/70" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                            </svg>
+                    </div>
+                          <p className="text-accent-green/70 text-lg font-medium">Interested</p>
+                </div>
+                    
+                        {/* Card - States A, B, C */}
+                        <div 
+                          className={`absolute w-[85%] transition-all ${
+                            currentState === 'd' ? 'opacity-0 translate-x-[150%]' :
+                            currentState === 'c' ? 'opacity-100 translate-x-[60%] blur-[8px] scale-110 rotate-[5deg]' :
+                            currentState === 'b' ? 'opacity-100 translate-x-[20%] blur-[2px] scale-105 rotate-[15deg]' :
+                            'opacity-100 translate-x-0 blur-0 scale-100 rotate-0'
+                          }`}
+                          style={{ 
+                            transitionDuration: '800ms',
+                            transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)'
+                          }}
+                        >
+                          <div className={`absolute -inset-4 bg-accent-green/20 rounded-[2rem] blur-xl transition-opacity duration-500 ${
+                            currentState === 'b' || currentState === 'a' ? 'opacity-100' : 'opacity-0'
+                          }`}></div>
+                          
+                          <div className="relative bg-white rounded-[1.5rem] shadow-2xl overflow-hidden">
+                            <div className="relative h-48 sm:h-52">
+                              <img 
+                                src="assets/Discover Deck1.png" 
+                                alt="Creator"
+                                className="w-full h-full object-cover object-top"
+                                style={{ objectPosition: 'center 15%' }}
+                              />
+                              
+                              {/* Green Heart Badge */}
+                              <div 
+                                className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transition-all ${
+                                  currentState === 'b' || currentState === 'a'
+                                    ? 'opacity-100 scale-100' 
+                                    : 'opacity-0 scale-50'
+                                }`}
+                                style={{ 
+                                  transitionDuration: '500ms',
+                                  transitionTimingFunction: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+                                  transitionDelay: currentState === 'b' ? '200ms' : '0ms'
+                                }}
+                              >
+                                <div className={`w-20 h-20 sm:w-24 sm:h-24 bg-accent-green rounded-full flex items-center justify-center shadow-lg ${
+                                  currentState === 'a' ? 'animate-pulse' : ''
+                                }`}>
+                                  <svg className="w-10 h-10 sm:w-12 sm:h-12 text-white" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                                  </svg>
+                            </div>
+                        </div>
+                              
+                              <div className="absolute top-3 right-3 bg-accent-orange text-white px-2 py-1 rounded-full text-xs font-bold flex items-center gap-1">
+                                ⭐ ER: 4.8%
+                            </div>
+                        </div>
+                    
+                            <div className="p-4">
+                              <h4 className="font-bold text-primary text-lg mb-1">France Freed</h4>
+                              <div className="flex items-center gap-2 mb-2 flex-wrap">
+                                <span className="bg-secondary px-2 py-0.5 rounded-full text-xs">👥 3.2M</span>
+                                <span className="bg-secondary px-2 py-0.5 rounded-full text-xs">🍳 Food</span>
+                                <span className="bg-secondary px-2 py-0.5 rounded-full text-xs">💰 $400</span>
+                    </div>
+                              <p className="text-xs text-subtitle line-clamp-2">
+                                Capturing moments that feel like sunlight. Curating calm, color, and everyday magic.
+                              </p>
+                </div>
+            </div>
+        </div>
+                    </div>
+                    
+                      {/* Bottom Navigation */}
+                      <div className="absolute bottom-4 left-4 right-4 bg-white/95 backdrop-blur-sm rounded-full py-2 px-4 flex justify-around items-center shadow-lg z-40">
+                        {[
+                          { icon: '🏠', label: 'Home', active: false },
+                          { icon: '🔍', label: 'Discover', active: true },
+                          { icon: '🤝', label: 'Matches', active: false },
+                          { icon: '💬', label: 'Messages', active: false },
+                          { icon: '👤', label: 'Profile', active: false },
+                        ].map((item, i) => (
+                          <div key={i} className={`flex flex-col items-center gap-0.5 ${item.active ? 'text-accent-green' : 'text-subtitle'}`}>
+                            <span className={`text-lg ${item.active ? 'bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center text-sm' : ''}`}>
+                              {item.icon}
+                            </span>
+                            <span className="text-[10px]">{item.label}</span>
+                            </div>
+                        ))}
+                        </div>
+                            </div>
+            </div>
+            
+                  <div className="absolute -bottom-8 -right-8 w-32 h-32 bg-accent-green/10 rounded-full blur-2xl"></div>
+                  <div className="absolute -top-8 -left-8 w-24 h-24 bg-accent-green/20 rounded-full blur-2xl"></div>
+                            </div>
+                        </div>
+              
+              {/* Step Labels */}
+              <div className="flex justify-center gap-4 mt-8 flex-wrap">
+                {[
+                  { state: 'a', label: '1. Card View', desc: 'Initial state' },
+                  { state: 'b', label: '2. Card Tilting', desc: 'Like gesture' },
+                  { state: 'c', label: '3. Swiping Right', desc: 'Card flying out' },
+                  { state: 'd', label: '4. Interested', desc: 'Liked creator' },
+                ].map((step) => (
+                  <div
+                    key={step.state}
+                    className={`px-4 py-3 rounded-2xl transition-all text-left ${
+                      currentState === step.state 
+                        ? 'bg-white shadow-lg border-2 border-accent-green' 
+                        : 'bg-white/50 border-2 border-transparent'
+                    }`}
+                  >
+                    <p className="font-semibold text-primary text-sm">{step.label}</p>
+                    <p className="text-xs text-subtitle">{step.desc}</p>
+            </div>
+                ))}
+                            </div>
+                        </div>
+                    </div>
+                    
+    </section>
+      );
+    };
+
+    // ============================================
+    // FEATURE COMPONENT
+    // ============================================
+    const Feature = () => {
+      return (
+        <section id="features" className="py-24 bg-white">
+          <div className="max-w-[1280px] mx-auto px-6">
+            <div className="bg-secondary rounded-[2rem] sm:rounded-[3rem] p-8 sm:p-12 lg:p-16 overflow-hidden">
+              <div className="grid lg:grid-cols-2 gap-12 items-center">
+                <div className="space-y-6">
+                  <h2 className="font-montserrat font-bold text-3xl sm:text-4xl lg:text-5xl text-primary leading-tight">
+                    Find Your Perfect<br />Brand Match
+                  </h2>
+                  <p className="text-lg text-subtitle leading-relaxed max-w-lg">
+                    Our AI-powered algorithm analyzes your content, audience, and engagement to connect you with brands that truly align with your style and values.
+                  </p>
+                  <div className="space-y-4">
+                    {[
+                      { iconSrc: 'assets/icons/search.png', title: 'Precision Matching', desc: 'Get matched with campaigns that fit your niche perfectly', color: 'green' },
+                      { iconSrc: 'assets/icons/handshake.png', title: 'Real Analytics', desc: 'Track performance and optimize your collaborations', color: 'pink' },
+                      { iconSrc: 'assets/icons/notifications.png', title: 'Instant Notifications', desc: 'Never miss a brand opportunity with real-time alerts', color: 'orange' },
+                    ].map((item, i) => (
+                      <div key={i} className="flex items-start gap-4">
+                        <span className={`w-10 h-10 bg-accent-${item.color}/10 rounded-xl flex items-center justify-center shrink-0`}>
+                          {item.iconSrc ? (
+                            <img src={item.iconSrc} alt={item.title} className="w-6 h-6 object-contain" />
+                          ) : (
+                            <span className={`text-accent-${item.color} text-lg`}>{item.icon}</span>
+                          )}
+                        </span>
+                        <div>
+                          <h4 className="font-semibold text-primary mb-1">{item.title}</h4>
+                          <p className="text-sm text-subtitle">{item.desc}</p>
+                            </div>
+                        </div>
+                    ))}
+                            </div>
+                  <a href="#learn-more" className="inline-flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all">
+                    Learn more about matching
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                  </a>
+                            </div>
+                <div className="relative">
+                  <div className="relative bg-white rounded-3xl shadow-2xl overflow-hidden">
+                    <div className="aspect-[4/3] bg-black">
+                      <video
+                        className="w-full h-full object-cover"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        controls
+                      >
+                        <source src="assets/output_progressive_6dfb5dc5-3514-42dd-a359-f73f5a20767a.mp4" type="video/mp4" />
+                        Your browser does not support the video tag.
+                      </video>
+                    </div>
+                    {/* Removed badge and match toast */}
+                  </div>
+                  <div className="absolute -z-10 w-full h-full bg-accent-pink/10 rounded-3xl top-6 -right-6" />
+                </div>
+              </div>
+                        </div>
+                    </div>
+                    
+    </section>
+      );
+    };
+
+    // ============================================
+    // DARK SECTION COMPONENT
+    // ============================================
+    const DarkSection = () => {
+      return (
+        <section className="relative py-24 bg-primary overflow-hidden">
+          <div className="absolute inset-0 overflow-hidden">
+            <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent-orange/10 rounded-full blur-3xl" />
+            <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent-pink/10 rounded-full blur-3xl" />
+                            </div>
+
+          <div className="relative max-w-[1280px] mx-auto px-6">
+            <div className="grid lg:grid-cols-2 gap-16 items-center">
+              <div className="space-y-8">
+                {/* Removed pill */}
+                <h2 className="font-montserrat font-bold text-3xl sm:text-4xl lg:text-5xl text-secondary leading-tight">
+                  Connect with <span className="gradient-text">8,000+</span> Verified Creators
+                </h2>
+                <p className="text-lg text-secondary/70 leading-relaxed max-w-lg">
+                  Launch campaigns that reach millions. Our verified creator network delivers authentic engagement and measurable results for your brand.
+                </p>
+                <div className="grid sm:grid-cols-2 gap-6">
+                  {[
+                    { value: '2.5M+', label: 'Combined Follower Reach' },
+                    { value: '4.8%', label: 'Average Engagement Rate' },
+                    { value: '98%', label: 'Campaign Completion Rate' },
+                    { value: '24h', label: 'Average Response Time' },
+                  ].map((stat, i) => (
+                    <div key={i} className="space-y-2">
+                      <h4 className="font-montserrat font-bold text-3xl text-secondary">{stat.value}</h4>
+                      <p className="text-secondary/60 text-sm">{stat.label}</p>
+                        </div>
+                  ))}
+                            </div>
+                <div className="flex flex-wrap gap-4 pt-4">
+                  <a href="#brand-signup" className="inline-flex items-center gap-2 bg-secondary text-primary px-8 py-4 rounded-full text-base font-semibold hover:bg-white transition-all hover:shadow-xl">
+                    Start as a Brand
+                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                    </svg>
+                  </a>
+                  <a href="#case-studies" className="inline-flex items-center gap-2 border-2 border-secondary/30 text-secondary px-8 py-4 rounded-full text-base font-semibold hover:border-secondary/60 transition-all">
+                    View Case Studies
+                        </a>
+                        </div>
+                    </div>
+                    
+              <div className="relative">
+                <div className="relative lg:translate-y-12">
+                  <div className="bg-white rounded-3xl shadow-2xl p-8 space-y-6">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h4 className="font-semibold text-primary">Campaign Dashboard</h4>
+                        <p className="text-sm text-subtitle">Real-time analytics</p>
+                            </div>
+                      <span className="bg-accent-green/10 text-accent-green px-3 py-1 rounded-full text-xs font-medium">Live</span>
+                        </div>
+                    <div className="grid grid-cols-3 gap-4">
+                      {[{ v: '12', l: 'Active' }, { v: '47', l: 'Matches' }, { v: '$4.2K', l: 'Spent' }].map((s, i) => (
+                        <div key={i} className="bg-secondary rounded-2xl p-4 text-center">
+                          <p className="font-montserrat font-bold text-2xl text-primary">{s.v}</p>
+                          <p className="text-xs text-subtitle">{s.l}</p>
+                            </div>
+                      ))}
+                        </div>
+                    <div className="space-y-3">
+                      <div className="flex justify-between text-sm">
+                        <span className="text-subtitle">Campaign Progress</span>
+                        <span className="font-semibold text-primary">75%</span>
+                    </div>
+                      <div className="h-2 bg-secondary rounded-full overflow-hidden">
+                        <div className="h-full bg-gradient-to-r from-accent-green to-accent-green/70 rounded-full" style={{ width: '75%' }} />
+                </div>
+            </div>
+                    <div className="space-y-3">
+                      <p className="text-sm text-subtitle">Recent Activity</p>
+                      <div className="space-y-2">
+                        {[
+                          { name: 'Sarah K.', action: 'accepted campaign', time: '2m ago' },
+                          { name: 'Alex T.', action: 'submitted content', time: '15m ago' },
+                          { name: 'Maya L.', action: 'new match', time: '1h ago' },
+                        ].map((activity, i) => (
+                          <div key={i} className="flex items-center gap-3 p-2 rounded-xl hover:bg-secondary/50 transition-colors">
+                            <img src={`https://i.pravatar.cc/32?img=${i + 20}`} alt={activity.name} className="w-8 h-8 rounded-full" />
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm text-primary truncate"><span className="font-medium">{activity.name}</span> {activity.action}</p>
+        </div>
+                            <span className="text-xs text-subtitle whitespace-nowrap">{activity.time}</span>
+                </div>
+                        ))}
+            </div>
+        </div>
+                </div>
+                  {/* Removed hot campaign badge */}
+            </div>
+        </div>
+            </div>
+        </div>
+
+    </section>
+      );
+    };
+
+    // ============================================
+    // STACKED JOURNEY (CREATORS -> TESTIMONIALS -> FINAL CTA)
+    // ============================================
+    const StackedJourney = () => {
+      const stackRef = React.useRef(null);
+      const [progress, setProgress] = useState(0);
+      const sectionsCount = 4;
+
+      useEffect(() => {
+        const onScroll = () => {
+          if (!stackRef.current) return;
+          const rect = stackRef.current.getBoundingClientRect();
+          const vh = window.innerHeight;
+          const total = rect.height - vh;
+          const scrolled = Math.min(Math.max(-rect.top, 0), total);
+          setProgress(total > 0 ? scrolled / total : 0);
+        };
+        onScroll();
+        window.addEventListener('scroll', onScroll);
+        return () => window.removeEventListener('scroll', onScroll);
+      }, []);
+
+      const per = 1 / (sectionsCount - 1); // transitions across two boundaries
+      const activeIndex = Math.min(sectionsCount - 1, Math.floor(progress / per));
+      const segT = Math.min(1, Math.max(0, (progress - activeIndex * per) / per));
+
+      const getStyle = (i) => {
+        let scale = 1, opacity = 1, translateY = 0;
+        if (i < activeIndex) {
+          scale = 0.97;
+          opacity = 0.92;
+          translateY = -10;
+        } else if (i === activeIndex) {
+          scale = 1 - segT * 0.03;
+          opacity = 1 - segT * 0.05;
+          translateY = -segT * 30;
+        } else if (i === activeIndex + 1) {
+          const eased = Math.max(0, (segT - 0.25) / 0.75); // delay appearance
+          scale = 0.94 + eased * 0.08;
+          opacity = 0 + eased * 1.0;
+          translateY = 80 - eased * 80;
+        } else {
+          scale = 0.92;
+          opacity = 0;
+          translateY = 80;
+        }
+        return {
+          transform: `translateY(${translateY}px) scale(${scale})`,
+          opacity,
+          zIndex: 20 + i
+        };
+      };
+
+      return (
+        <section ref={stackRef} className="relative bg-white" style={{ height: '520vh' }}>
+          <div className="stacked-viewport">
+            {/* Panel 1: Creators */}
+            <div className="stacked-panel bg-primary text-secondary" style={getStyle(0)}>
+              <div className="absolute inset-0 overflow-hidden">
+                <div className="absolute top-0 left-1/4 w-96 h-96 bg-accent-orange/10 rounded-full blur-3xl" />
+                <div className="absolute bottom-0 right-1/4 w-96 h-96 bg-accent-pink/10 rounded-full blur-3xl" />
+        </div>
+              <div className="relative max-w-[1280px] mx-auto px-6 h-full flex items-center">
+                <div className="grid lg:grid-cols-2 gap-16 items-center w-full">
+                  <div className="space-y-8">
+                    <h2 className="font-montserrat font-extrabold text-3xl sm:text-4xl lg:text-5xl text-secondary leading-tight drop-shadow-xl">
+                      Connect with <span className="gradient-text">8,000+</span> Verified Creators
+                    </h2>
+                    <p className="text-lg text-secondary/70 leading-relaxed max-w-lg">
+                      Launch campaigns that reach millions. Our verified creator network delivers authentic engagement and measurable results for your brand.
+                    </p>
+                    <div className="grid sm:grid-cols-2 gap-6">
+                      {[
+                        { value: '2.5M+', label: 'Combined Follower Reach' },
+                        { value: '4.8%', label: 'Average Engagement Rate' },
+                        { value: '98%', label: 'Campaign Completion Rate' },
+                        { value: '24h', label: 'Average Response Time' },
+                      ].map((stat, i) => (
+                        <div key={i} className="space-y-2">
+                          <h4 className="font-montserrat font-bold text-3xl text-secondary">{stat.value}</h4>
+                          <p className="text-secondary/60 text-sm">{stat.label}</p>
+            </div>
+                      ))}
+        </div>
+                    <div className="flex flex-wrap gap-4 pt-4">
+                      <a href="#brand-signup" className="inline-flex items-center gap-2 bg-secondary text-primary px-8 py-4 rounded-full text-base font-semibold hover:bg-white transition-all hover:shadow-xl">
+                        Start as a Brand
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                      </a>
+                      <a href="#case-studies" className="inline-flex items-center gap-2 border-2 border-secondary/30 text-secondary px-8 py-4 rounded-full text-base font-semibold hover:border-secondary/60 transition-all">
+                        View Case Studies
+                      </a>
+                            </div>
+                  </div>
+                  <div className="relative">
+                    <div className="relative lg:translate-y-12">
+                      <div className="bg-white rounded-3xl shadow-2xl p-8 space-y-6">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <h4 className="font-semibold text-primary">Campaign Dashboard</h4>
+                            <p className="text-sm text-subtitle">Real-time analytics</p>
+                          </div>
+                          <span className="bg-accent-green/10 text-accent-green px-3 py-1 rounded-full text-xs font-medium">Live</span>
+                        </div>
+                        <div className="grid grid-cols-3 gap-4">
+                          {[{ v: '12', l: 'Active' }, { v: '47', l: 'Matches' }, { v: '$4.2K', l: 'Spent' }].map((s, i) => (
+                            <div key={i} className="bg-secondary rounded-2xl p-4 text-center">
+                              <p className="font-montserrat font-bold text-2xl text-primary">{s.v}</p>
+                              <p className="text-xs text-subtitle">{s.l}</p>
+                            </div>
+                          ))}
+                        </div>
+                        <div className="space-y-3">
+                          <div className="flex justify-between text-sm">
+                            <span className="text-subtitle">Campaign Progress</span>
+                            <span className="font-semibold text-primary">75%</span>
+                          </div>
+                          <div className="h-2 bg-secondary rounded-full overflow-hidden">
+                            <div className="h-full bg-gradient-to-r from-accent-green to-accent-green/70 rounded-full" style={{ width: '75%' }} />
+                          </div>
+                        </div>
+                        <div className="space-y-3">
+                          <p className="text-sm text-subtitle">Recent Activity</p>
+                          <div className="space-y-2">
+                            {[
+                              { name: 'Sarah K.', action: 'accepted campaign', time: '2m ago' },
+                              { name: 'Alex T.', action: 'submitted content', time: '15m ago' },
+                              { name: 'Maya L.', action: 'new match', time: '1h ago' },
+                            ].map((activity, i) => (
+                              <div key={i} className="flex items-center gap-3 p-2 rounded-xl hover:bg-secondary/50 transition-colors">
+                                <img src={`https://i.pravatar.cc/32?img=${i + 20}`} alt={activity.name} className="w-8 h-8 rounded-full" />
+                                <div className="flex-1 min-w-0">
+                                  <p className="text-sm text-primary truncate"><span className="font-medium">{activity.name}</span> {activity.action}</p>
+                                </div>
+                                <span className="text-xs text-subtitle whitespace-nowrap">{activity.time}</span>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Panel 2: Feature - Find Your Perfect Brand Match */}
+            <div className="stacked-panel bg-white" style={getStyle(1)}>
+              <div className="max-w-[1280px] mx-auto px-6 py-16 h-full flex items-center">
+                <div className="bg-secondary rounded-[2rem] sm:rounded-[3rem] p-8 sm:p-12 lg:p-16 w-full overflow-hidden shadow-xl">
+                  <div className="grid lg:grid-cols-2 gap-12 items-center">
+                    <div className="space-y-6">
+                      <h2 className="font-montserrat font-bold text-3xl sm:text-4xl lg:text-5xl text-primary leading-tight">
+                        Find Your Perfect<br />Brand Match
+                      </h2>
+                      <p className="text-lg text-subtitle leading-relaxed max-w-lg">
+                        Our AI-powered algorithm analyzes your content, audience, and engagement to connect you with brands that truly align with your style and values.
+                      </p>
+                      <div className="space-y-4">
+                        {[
+                          { iconSrc: 'assets/icons/search.png', title: 'Precision Matching', desc: 'Get matched with campaigns that fit your niche perfectly', color: 'green' },
+                          { iconSrc: 'assets/icons/handshake.png', title: 'Real Analytics', desc: 'Track performance and optimize your collaborations', color: 'pink' },
+                          { iconSrc: 'assets/icons/notifications.png', title: 'Instant Notifications', desc: 'Never miss a brand opportunity with real-time alerts', color: 'orange' },
+                        ].map((item, i) => (
+                          <div key={i} className="flex items-start gap-4">
+                            <span className={`w-10 h-10 bg-accent-${item.color}/10 rounded-xl flex items-center justify-center shrink-0`}>
+                              <img src={item.iconSrc} alt={item.title} className="w-6 h-6 object-contain" />
+                            </span>
+                            <div>
+                              <h4 className="font-semibold text-primary mb-1">{item.title}</h4>
+                              <p className="text-sm text-subtitle">{item.desc}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                      <a href="#learn-more" className="inline-flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all">
+                        Learn more about matching
+                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                      </a>
+                    </div>
+                    <div className="relative">
+                      <div className="relative bg-white rounded-3xl shadow-2xl overflow-hidden">
+                        <div className="aspect-[4/3] bg-black">
+                          <video
+                            className="w-full h-full object-cover"
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            controls
+                          >
+                            <source src="assets/output_progressive_6dfb5dc5-3514-42dd-a359-f73f5a20767a.mp4" type="video/mp4" />
+                            Your browser does not support the video tag.
+                          </video>
+                        </div>
+                      </div>
+                      <div className="absolute -z-10 w-full h-full bg-accent-pink/10 rounded-3xl top-6 -right-6" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Panel 3: Testimonials */}
+            <div className="stacked-panel bg-white" style={getStyle(2)}>
+              <div className="max-w-[1280px] mx-auto px-6 py-16 h-full flex flex-col">
+                <div className="text-center mb-16">
+                  <h2 className="font-montserrat font-bold text-3xl sm:text-4xl lg:text-5xl text-primary mb-4">Don’t Take Our Word for It</h2>
+                  <div className="mt-4 mb-6">
+                    <p className="font-montserrat font-bold text-5xl sm:text-6xl lg:text-7xl gradient-text">26,900,789</p>
+                    <p className="text-lg text-subtitle mt-2">Visitors engaged through our platform</p>
+        </div>
+                </div>
+
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 flex-1 opacity-80">
+                  {[
+                    { quote: "Influency changed the game for me! I went from struggling to find brand deals to having multiple collaborations every month.", author: 'Sarah K.', role: 'Fashion Creator', followers: '250K Followers', avatar: 1, metric: '+320%', metricLabel: 'Income Growth' },
+                    { quote: "As a brand, finding authentic creators was always a challenge. Influency's verified profiles saved us countless hours.", author: 'Michael R.', role: 'Marketing Director', company: 'OSMO Cosmetics', avatar: 12, metric: '4.8x', metricLabel: 'ROI' },
+                    { quote: "The payment system gives me peace of mind. I know I'll get paid once I deliver. It's made collaborating stress-free.", author: 'Alex T.', role: 'Food Creator', followers: '180K Followers', avatar: 5, metric: '$12K', metricLabel: 'Monthly Earnings' },
+                    { quote: "We launched 3 successful campaigns in our first month on Influency. The quality of creators is unmatched!", author: 'Jessica L.', role: 'Brand Manager', company: 'PizzaMat', avatar: 20, metric: '98%', metricLabel: 'Completion Rate' },
+                    { quote: "The matching algorithm is incredible. Every brand I connect with actually fits my content style and values.", author: 'David M.', role: 'Lifestyle Creator', followers: '500K Followers', avatar: 8, metric: '45+', metricLabel: 'Brand Deals' },
+                    { quote: "Finally, a platform that understands what creators need. The UX is beautiful and everything just works.", author: 'Emma W.', role: 'Beauty Creator', followers: '320K Followers', avatar: 15, metric: '5⭐', metricLabel: 'Rating' },
+                  ].map((t, i) => (
+                    <div key={i} className="bg-secondary rounded-3xl p-6 sm:p-8 hover:shadow-xl transition-all hover:-translate-y-1 group">
+                      <div className="flex justify-between items-start mb-6">
+                        <div className="bg-white rounded-2xl px-4 py-2 shadow-sm">
+                          <p className="font-montserrat font-bold text-xl text-primary">{t.metric}</p>
+                          <p className="text-xs text-subtitle">{t.metricLabel}</p>
+                        </div>
+                        <svg className="w-8 h-8 text-accent-pink/30 group-hover:text-accent-pink/50 transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                          <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                            </svg>
+                            </div>
+                      <p className="text-primary leading-relaxed mb-6">"{t.quote}"</p>
+                      <div className="flex items-center gap-4">
+                        <img src={`https://i.pravatar.cc/48?img=${t.avatar}`} alt={t.author} className="w-12 h-12 rounded-full" />
+                        <div>
+                          <p className="font-semibold text-primary">{t.author}</p>
+                          <p className="text-sm text-subtitle">{t.role}{t.followers && ` • ${t.followers}`}{t.company && ` • ${t.company}`}</p>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="mt-10 flex flex-wrap justify-center gap-6">
+                  {[
+                    { iconSrc: 'assets/icons/secure-payment (1).svg', label: 'Secure Payments' },
+                    { iconSrc: 'assets/icons/verified-creators (1).svg', label: 'Verified Creators' },
+                    { iconSrc: 'assets/icons/notifications.png', label: 'Fast Matching' },
+                    { iconSrc: 'assets/icons/GDPR.svg', label: 'GDPR Compliant' },
+                  ].map((badge, i) => (
+                    <div key={i} className="flex items-center gap-2 bg-secondary/50 px-5 py-2.5 rounded-full">
+                      <span className="w-5 h-5">
+                        <img src={badge.iconSrc} alt={badge.label} className="w-5 h-5 object-contain" />
+                      </span>
+                      <span className="text-sm font-medium text-subtitle">{badge.label}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Panel 4: Final CTA */}
+            <div className="stacked-panel bg-white" style={getStyle(3)}>
+              <div className="max-w-[1280px] mx-auto px-6 py-20 h-full flex items-center">
+                <div className="bg-white rounded-[2rem] sm:rounded-[3rem] shadow-xl p-8 sm:p-12 lg:p-16 text-center w-full">
+                  <h2 className="font-montserrat font-bold text-3xl sm:text-4xl lg:text-5xl text-primary mb-6 max-w-3xl mx-auto leading-tight">
+                    Start Growing Your<br /><span className="gradient-text">Creator Career</span> Today
+                  </h2>
+                  <p className="text-lg text-subtitle max-w-2xl mx-auto mb-10 leading-relaxed">
+                    Join thousands of creators and brands already building meaningful partnerships on Influency. Free to start, no credit card required.
+                  </p>
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+                    <a href="#signup" className="inline-flex items-center gap-2 bg-primary text-secondary px-10 py-4 rounded-full text-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-xl hover:-translate-y-0.5">
+                      Get Started Free
+                      <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                    </a>
+                    <a href="#contact" className="inline-flex items-center gap-2 text-primary font-semibold hover:text-subtitle transition-colors">
+                      Talk to Sales
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                            </svg>
+                        </a>
+                    </div>
+                  <div className="flex flex-wrap justify-center gap-8 pt-8 border-t border-outline/50">
+                    {['Free forever plan', 'No credit card required', 'Cancel anytime'].map((text, i) => (
+                      <div key={i} className="flex items-center gap-2">
+                        <svg className="w-5 h-5 text-accent-green" fill="currentColor" viewBox="0 0 20 20">
+                          <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                        </svg>
+                        <span className="text-sm text-subtitle">{text}</span>
+                        </div>
+                    ))}
+                    </div>
+                </div>
+                                </div>
+                            </div>
+                                </div>
+        </section>
+      );
+    };
+
+    // ============================================
+    // OUR TEAM SECTION (DRAGGABLE GALLERY)
+    // ============================================
+    const OurTeam = () => {
+      const scrollerRef = React.useRef(null);
+      const [dragging, setDragging] = useState(false);
+      const [cursorVisible, setCursorVisible] = useState(false);
+      const [cursorPos, setCursorPos] = useState({ x: 0, y: 0 });
+      const startX = React.useRef(0);
+      const startScroll = React.useRef(0);
+
+      const team = [
+        { name: 'Leah Brown', role: 'CEO & Co-founder', img: 'https://i.pravatar.cc/240?img=47' },
+        { name: 'Alex Carter', role: 'CTO', img: 'https://i.pravatar.cc/240?img=33' },
+        { name: 'Priya Patel', role: 'Head of Product', img: 'https://i.pravatar.cc/240?img=56' },
+        { name: 'Jonas Weber', role: 'Lead Engineer', img: 'https://i.pravatar.cc/240?img=12' },
+        { name: 'Amira Khan', role: 'Design Lead', img: 'https://i.pravatar.cc/240?img=29' },
+        { name: 'Marcus Lee', role: 'Data & AI', img: 'https://i.pravatar.cc/240?img=18' },
+        { name: 'Sara Rossi', role: 'Growth', img: 'https://i.pravatar.cc/240?img=38' },
+        { name: 'Noura Al-Sayed', role: 'Partnerships', img: 'https://i.pravatar.cc/240?img=61' },
+      ];
+
+      const onPointerDown = (e) => {
+        if (!scrollerRef.current) return;
+        setDragging(true);
+        scrollerRef.current.classList.add('dragging');
+        startX.current = e.clientX ?? e.touches?.[0]?.clientX ?? 0;
+        startScroll.current = scrollerRef.current.scrollLeft;
+        scrollerRef.current.setPointerCapture(e.pointerId);
+      };
+
+      const onPointerMove = (e) => {
+        if (!dragging || !scrollerRef.current) return;
+        const x = e.clientX ?? e.touches?.[0]?.clientX ?? 0;
+        const walk = startX.current - x;
+        scrollerRef.current.scrollLeft = startScroll.current + walk;
+      };
+
+      const endDrag = (e) => {
+        if (!scrollerRef.current) return;
+        setDragging(false);
+        scrollerRef.current.classList.remove('dragging');
+        try { scrollerRef.current.releasePointerCapture(e.pointerId); } catch (_) {}
+      };
+
+      const onMouseMove = (e) => {
+        setCursorPos({ x: e.clientX, y: e.clientY });
+      };
+
+      return (
+        <section className="py-24 bg-white">
+          <div className="max-w-[1280px] mx-auto px-6">
+            <div className="text-center md:text-left max-w-3xl mb-10">
+              <h2 className="font-montserrat font-bold text-3xl sm:text-4xl lg:text-5xl text-primary mb-3">Our Team</h2>
+              <p className="text-lg text-subtitle">A small team building big tools for creators and brands.</p>
+                                    </div>
+
+            <div className="flex items-center justify-between mb-4">
+              <div className="text-sm text-subtitle md:hidden">Swipe to explore</div>
+              <div className="text-sm text-subtitle hidden md:block">Drag to explore</div>
+                                </div>
+
+            <div
+              ref={scrollerRef}
+              className="team-drag overflow-x-auto pb-2 flex gap-6 snap-x snap-mandatory"
+              onPointerDown={onPointerDown}
+              onPointerMove={onPointerMove}
+              onPointerUp={endDrag}
+              onPointerLeave={endDrag}
+              onPointerCancel={endDrag}
+              onMouseEnter={() => setCursorVisible(true)}
+              onMouseLeave={() => setCursorVisible(false)}
+              onMouseMove={onMouseMove}
+            >
+              {team.map((member, i) => (
+                <div
+                  key={i}
+                  className="team-card group snap-start min-w-[220px] sm:min-w-[240px] lg:min-w-[260px] bg-white rounded-3xl shadow-lg hover:shadow-xl transition-shadow duration-200 flex-shrink-0"
+                >
+                  <div className="relative overflow-hidden rounded-3xl">
+                    <img src={member.img} alt={member.name} className="w-full h-[260px] object-cover transition-transform duration-200 group-hover:scale-105" />
+                            </div>
+                  <div className="p-4">
+                    <h4 className="font-semibold text-primary text-lg">{member.name}</h4>
+                    <p className="text-subtitle text-sm">{member.role}</p>
+                            </div>
+                        </div>
+              ))}
+                    </div>
+
+            {/* Desktop cursor helper */}
+            {cursorVisible && (
+              <div
+                className="hidden md:flex fixed pointer-events-none z-50"
+                style={{
+                  left: cursorPos.x,
+                  top: cursorPos.y,
+                  transform: 'translate(-50%, -50%)',
+                }}
+              >
+                <div className="w-16 h-16 rounded-full bg-primary/90 text-white text-xs font-bold flex items-center justify-center shadow-xl">
+                  DRAG
+                </div>
+            </div>
+            )}
+        </div>
+    </section>
+      );
+    };
+
+    // ============================================
+    // TESTIMONIALS COMPONENT
+    // ============================================
+    const Testimonials = () => {
+      const testimonials = [
+        { quote: "Influency changed the game for me! I went from struggling to find brand deals to having multiple collaborations every month.", author: 'Sarah K.', role: 'Fashion Creator', followers: '250K Followers', avatar: 1, metric: '+320%', metricLabel: 'Income Growth' },
+        { quote: "As a brand, finding authentic creators was always a challenge. Influency's verified profiles saved us countless hours.", author: 'Michael R.', role: 'Marketing Director', company: 'OSMO Cosmetics', avatar: 12, metric: '4.8x', metricLabel: 'ROI' },
+        { quote: "The payment system gives me peace of mind. I know I'll get paid once I deliver. It's made collaborating stress-free.", author: 'Alex T.', role: 'Food Creator', followers: '180K Followers', avatar: 5, metric: '$12K', metricLabel: 'Monthly Earnings' },
+        { quote: "We launched 3 successful campaigns in our first month on Influency. The quality of creators is unmatched!", author: 'Jessica L.', role: 'Brand Manager', company: 'PizzaMat', avatar: 20, metric: '98%', metricLabel: 'Completion Rate' },
+        { quote: "The matching algorithm is incredible. Every brand I connect with actually fits my content style and values.", author: 'David M.', role: 'Lifestyle Creator', followers: '500K Followers', avatar: 8, metric: '45+', metricLabel: 'Brand Deals' },
+        { quote: "Finally, a platform that understands what creators need. The UX is beautiful and everything just works.", author: 'Emma W.', role: 'Beauty Creator', followers: '320K Followers', avatar: 15, metric: '5⭐', metricLabel: 'Rating' },
+      ];
+
+      return (
+        <section id="testimonials" className="py-12 bg-white overflow-hidden">
+          <div className="max-w-[1280px] mx-auto px-6">
+            <div className="text-center mb-10">
+              <span className="inline-block bg-accent-pink/10 text-accent-pink px-4 py-1.5 rounded-full text-sm font-medium mb-4">💬 Testimonials</span>
+              <h2 className="font-montserrat font-bold text-3xl sm:text-4xl lg:text-5xl text-primary mb-4">Don't Take Our Word for It</h2>
+              <div className="mt-8 mb-6">
+                <p className="font-montserrat font-bold text-3xl sm:text-4xl lg:text-5xl gradient-text">26,900,789</p>
+                <p className="text-lg text-subtitle mt-2">Visitors engaged through our platform</p>
+                        </div>
+                    </div>
+                    
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {testimonials.map((t, i) => (
+                <div key={i} className="bg-secondary rounded-3xl p-5 sm:p-6 hover:shadow-lg transition-all hover:-translate-y-1 group">
+                  <div className="flex justify-between items-start mb-6">
+                    <div className="bg-white rounded-2xl px-4 py-2 shadow-sm">
+                      <p className="font-montserrat font-bold text-xl text-primary">{t.metric}</p>
+                      <p className="text-xs text-subtitle">{t.metricLabel}</p>
+                    </div>
+                    <svg className="w-8 h-8 text-accent-pink/30 group-hover:text-accent-pink/50 transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
+                    </svg>
+                            </div>
+                  <p className="text-primary leading-relaxed mb-6">"{t.quote}"</p>
+                  <div className="flex items-center gap-4">
+                    <img src={`https://i.pravatar.cc/48?img=${t.avatar}`} alt={t.author} className="w-12 h-12 rounded-full" />
+                    <div>
+                      <p className="font-semibold text-primary">{t.author}</p>
+                      <p className="text-sm text-subtitle">{t.role}{t.followers && ` • ${t.followers}`}{t.company && ` • ${t.company}`}</p>
+                        </div>
+                    </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-16 flex flex-wrap justify-center gap-6">
+              {[
+                { iconSrc: 'assets/icons/secure-payment (1).svg', label: 'Secure Payments' },
+                { iconSrc: 'assets/icons/verified-creators (1).svg', label: 'Verified Creators' },
+                { iconSrc: 'assets/icons/notifications.png', label: 'Fast Matching' },
+                { iconSrc: 'assets/icons/GDPR.svg', label: 'GDPR Compliant' },
+              ].map((badge, i) => (
+                <div key={i} className="flex items-center gap-2 bg-secondary/50 px-5 py-2.5 rounded-full">
+                  <span className="w-5 h-5">
+                    <img src={badge.iconSrc} alt={badge.label} className="w-5 h-5 object-contain" />
+                  </span>
+                  <span className="text-sm font-medium text-subtitle">{badge.label}</span>
+                </div>
+              ))}
+            </div>
+        </div>
+    </section>
+      );
+    };
+
+    // ============================================
+    // CONTACT SECTION
+    // ============================================
+    const ContactSection = () => {
+      return (
+        <section id="contact" className="py-24 bg-secondary/40">
+          <div className="max-w-[1100px] mx-auto px-6">
+            <div className="bg-white rounded-[2rem] shadow-xl p-8 sm:p-12 lg:p-14">
+              <div className="grid lg:grid-cols-2 gap-10 items-start">
+                <div className="space-y-4">
+                  <h2 className="font-montserrat font-bold text-3xl sm:text-4xl text-primary leading-tight">Contact Us</h2>
+                  <p className="text-lg text-subtitle">A small team building big tools for creators and brands—let’s talk.</p>
+                  <div className="space-y-3 text-subtitle">
+                    <div className="flex items-center gap-3">
+                      <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+                      <span>hello@influency.app</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h1.28a1 1 0 01.96.73l.52 2.07a1 1 0 01-.27.98l-1.22 1.22a16 16 0 006.59 6.59l1.22-1.22a1 1 0 01.98-.27l2.07.52a1 1 0 01.73.96V19a2 2 0 01-2 2h-1C9.163 21 3 14.837 3 7V5z" /></svg>
+                      <span>+1 (415) 555-0199</span>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <svg className="w-5 h-5 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14l-5-4.87 6.91-1.01L12 2z" /></svg>
+                      <span>Trusted by 8,000+ creators & brands</span>
+                    </div>
+                  </div>
+                </div>
+
+                <form className="space-y-4">
+                  <div className="grid sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-semibold text-primary mb-1" htmlFor="name">Full Name</label>
+                      <input id="name" type="text" className="w-full rounded-xl border border-outline/70 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/30" placeholder="Jane Doe" />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-semibold text-primary mb-1" htmlFor="email">Work Email</label>
+                      <input id="email" type="email" className="w-full rounded-xl border border-outline/70 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/30" placeholder="jane@company.com" />
+                    </div>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-primary mb-1" htmlFor="company">Company</label>
+                    <input id="company" type="text" className="w-full rounded-xl border border-outline/70 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/30" placeholder="Brand or agency name" />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-primary mb-1" htmlFor="message">How can we help?</label>
+                    <textarea id="message" rows="4" className="w-full rounded-xl border border-outline/70 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/30" placeholder="Tell us about your goals"></textarea>
+                  </div>
+                  <div className="flex items-center gap-3">
+                    <button type="submit" className="inline-flex items-center gap-2 bg-primary text-secondary px-6 py-3 rounded-full text-sm font-semibold hover:bg-primary/90 transition-all hover:shadow-lg">
+                      Send Message
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                      </svg>
+                    </button>
+                    <span className="text-xs text-subtitle">We reply within 1 business day.</span>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    };
+
+    // FINAL CTA COMPONENT
+    // ============================================
+    const FinalCTA = () => {
+      return (
+        <section className="py-24 bg-secondary/50">
+          <div className="max-w-[1280px] mx-auto px-6">
+            <div className="bg-white rounded-[2rem] sm:rounded-[3rem] shadow-xl p-8 sm:p-12 lg:p-16 text-center">
+              <h2 className="font-montserrat font-bold text-3xl sm:text-4xl lg:text-5xl text-primary mb-6 max-w-3xl mx-auto leading-tight">
+                Start Growing Your<br /><span className="gradient-text">Creator Career</span> Today
+              </h2>
+              <p className="text-lg text-subtitle max-w-2xl mx-auto mb-10 leading-relaxed">
+                Join thousands of creators and brands already building meaningful partnerships on Influency. Free to start, no credit card required.
+              </p>
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12">
+                <a href="#signup" className="inline-flex items-center gap-2 bg-primary text-secondary px-10 py-4 rounded-full text-lg font-semibold hover:bg-primary/90 transition-all hover:shadow-xl hover:-translate-y-0.5">
+                  Get Started Free
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </a>
+                <a href="#contact" className="inline-flex items-center gap-2 text-primary font-semibold hover:text-subtitle transition-colors">
+                  Talk to Sales
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                        </a>
+                    </div>
+              <div className="flex flex-wrap justify-center gap-8 pt-8 border-t border-outline/50">
+                {['Free forever plan', 'No credit card required', 'Cancel anytime'].map((text, i) => (
+                  <div key={i} className="flex items-center gap-2">
+                    <svg className="w-5 h-5 text-accent-green" fill="currentColor" viewBox="0 0 20 20">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                    </svg>
+                    <span className="text-sm text-subtitle">{text}</span>
+                </div>
+                ))}
+                    </div>
+                    </div>
+                    </div>
+        </section>
+      );
+    };
+
+    // ============================================
+    // FOOTER COMPONENT
+    // ============================================
+    const Footer = () => {
+      const links = {
+        Product: ['Features', 'Pricing', 'API', 'Integrations'],
+        Company: ['About Us', 'Careers', 'Press', 'Blog'],
+        Support: ['Help Center', 'Contact', 'Community', 'Status'],
+        Legal: ['Privacy', 'Terms', 'Cookies', 'GDPR'],
+      };
+
+      return (
+        <footer className="bg-primary text-secondary py-16">
+          <div className="max-w-[1280px] mx-auto px-6">
+            <div className="grid md:grid-cols-2 lg:grid-cols-6 gap-12 mb-12">
+              <div className="lg:col-span-2">
+                <a href="/" className="flex items-center mb-6">
+                  <img src="assets/Logo.png" alt="Influency" className="h-8 sm:h-10 brightness-0 invert" />
+                </a>
+                <p className="text-secondary/60 text-sm leading-relaxed mb-6 max-w-xs">
+                  Connecting creators with brands for meaningful collaborations. Built by creators, for creators.
+                </p>
+                <div className="flex gap-3">
+                  {[
+                    { src: 'assets/icons/Platform=Instagram, Color=Negative.png', alt: 'Instagram' },
+                    { src: 'assets/icons/Platform=Facebook, Color=Negative.png', alt: 'Facebook' },
+                    { src: 'assets/icons/Platform=YouTube, Color=Negative.png', alt: 'YouTube' },
+                    { src: 'assets/icons/Platform=X (Twitter), Color=Negative.png', alt: 'X / Twitter' },
+                    { src: 'assets/icons/Platform=LinkedIn, Color=Negative.png', alt: 'LinkedIn' },
+                  ].map((item, i) => (
+                    <a key={i} href="#" className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-accent-orange transition-colors">
+                      <img src={item.src} alt={item.alt} className="w-5 h-5 object-contain" />
+                    </a>
+                  ))}
+                    </div>
+                </div>
+              {Object.entries(links).map(([title, items]) => (
+                <div key={title}>
+                  <h4 className="font-semibold text-sm uppercase tracking-wider mb-4">{title}</h4>
+                  <ul className="space-y-3">
+                    {items.map((item) => {
+                      const url = item === 'Privacy' ? '/privacy.html' : item === 'Terms' ? '/terms.html' : '#';
+                      return (
+                        <li key={item}>
+                          <a 
+                            href={url} 
+                            className="text-secondary/60 text-sm hover:text-secondary transition-colors"
+                          >
+                            {item}
+                          </a>
+                        </li>
+                      );
+                    })}
+                        </ul>
+            </div>
+              ))}
+            </div>
+            <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4">
+              <p className="text-secondary/60 text-sm">© 2026 Influency. All rights reserved.</p>
+              <div className="flex items-center gap-6">
+                <a href="/privacy.html" className="text-secondary/60 text-sm hover:text-secondary">Privacy Policy</a>
+                <a href="/terms.html" className="text-secondary/60 text-sm hover:text-secondary">Terms of Service</a>
+                <a href="#" className="text-secondary/60 text-sm hover:text-secondary">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+      );
+    };
+
+    // ============================================
+    // MAIN APP COMPONENT
+    // ============================================
+    const App = () => {
+      return (
+        <div className="min-h-screen bg-white">
+          <Header />
+          <main>
+            <Hero />
+            <IntegrationsSection />
+            <OurTeam />
+            <Workflows />
+            <SwipeInteractiveSection />
+            <StackedJourney />
+            <ContactSection />
+          </main>
+          <Footer />
+        </div>
+      );
+    };
+
+    // Render the app
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>

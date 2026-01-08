@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Terms of Service - Influency</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      :root {
+        --primary: #232120;
+        --secondary: #F5EAE2;
+        --outline: #EADCD3;
+        --subtitle: #624639;
+        --accent-orange: #FF4100;
+        --accent-green: #00E264;
+        --accent-pink: #FF78F4;
+        --accent-purple: #6273E9;
+      }
+      body {
+        font-family: 'DM Sans', sans-serif;
+        background:
+          radial-gradient(circle at 80% 10%, rgba(98,115,233,0.12), transparent 25%),
+          radial-gradient(circle at 15% 85%, rgba(255,65,0,0.10), transparent 20%),
+          #ffffff;
+      }
+      .glass-card {
+        backdrop-filter: blur(12px);
+        background: rgba(255, 255, 255, 0.88);
+        border: 1px solid rgba(234, 220, 211, 0.7);
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.06);
+      }
+      h1, h2, h3 {
+        font-family: 'Montserrat', sans-serif;
+      }
+      .content h2 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary);
+        margin-top: 2.5rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--outline);
+      }
+      .content h3 {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: var(--primary);
+        margin-top: 1.5rem;
+        margin-bottom: 0.75rem;
+      }
+      .content p {
+        color: var(--subtitle);
+        line-height: 1.8;
+        margin-bottom: 1rem;
+      }
+      .content ul, .content ol {
+        padding-left: 0;
+        margin-bottom: 1rem;
+      }
+      .content ul {
+        list-style: none;
+      }
+      .content ul li {
+        position: relative;
+        padding-left: 1.75rem;
+        color: var(--subtitle);
+        line-height: 1.8;
+        margin-bottom: 0.5rem;
+      }
+      .content ul li::before {
+        content: '•';
+        position: absolute;
+        left: 0.5rem;
+        color: var(--accent-purple);
+        font-weight: bold;
+        font-size: 1.25rem;
+      }
+      .content ol {
+        list-style: decimal;
+        padding-left: 1.5rem;
+      }
+      .content ol li {
+        color: var(--subtitle);
+        line-height: 1.8;
+        margin-bottom: 0.5rem;
+        padding-left: 0.5rem;
+      }
+      .highlight-box {
+        background: linear-gradient(135deg, rgba(98,115,233,0.08), rgba(0,226,100,0.08));
+        border-left: 4px solid var(--accent-purple);
+        padding: 1.25rem 1.5rem;
+        border-radius: 0 1rem 1rem 0;
+        margin: 1.5rem 0;
+      }
+      .content strong {
+        color: var(--primary);
+      }
+      .content em {
+        font-style: italic;
+      }
+      .content a {
+        color: var(--accent-purple);
+        text-decoration: underline;
+      }
+      .content a:hover {
+        color: var(--accent-orange);
+      }
+    </style>
+  </head>
+  <body class="text-[var(--primary)] min-h-screen">
+    <!-- Header -->
+    <header class="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-[var(--outline)]">
+      <div class="max-w-5xl mx-auto px-6 h-16 flex items-center justify-between">
+        <a href="/" class="flex items-center">
+          <img src="/assets/Logo.png" alt="Influency" class="h-8 sm:h-10" />
+        </a>
+        <a href="/" class="px-5 py-2 rounded-full bg-[var(--primary)] text-white text-sm font-medium hover:opacity-90 transition">
+          Back to Home
+        </a>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="py-16 border-b border-[var(--outline)]">
+      <div class="max-w-5xl mx-auto px-6 text-center">
+        <div class="inline-flex items-center gap-2 bg-[var(--accent-purple)]/10 text-[var(--accent-purple)] px-4 py-1.5 rounded-full text-sm font-medium mb-6">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+          </svg>
+          Legal Agreement
+        </div>
+        <h1 class="text-4xl md:text-5xl font-bold mb-4">Terms of Service</h1>
+        <p class="text-[var(--subtitle)] text-lg max-w-2xl mx-auto">
+          Please read these terms carefully before using Influency. By using our platform, you agree to be bound by these terms.
+        </p>
+      </div>
+    </section>
+
+    <!-- Content -->
+    <main class="max-w-5xl mx-auto px-6 py-12">
+      <div class="glass-card rounded-3xl p-8 md:p-12 content">
+
+        <h2>1. Introduction</h2>
+        <p>Welcome to Influency, the AI-powered platform connecting brands and influencers through secure, data-driven collaborations. These Terms of Service ("Terms") form a legally binding agreement between you ("User", "you", or "your") and Influency ("Company", "we", "our", or "us") governing your access to and use of our mobile application, website, and related services (collectively, the "Services").</p>
+        <p>By creating an account or otherwise using the Services, you confirm that you have read, understood, and agreed to these Terms. If you do not agree, you must refrain from accessing or using the Services.</p>
+        <p>Our goal is to provide a transparent, secure, and compliant ecosystem for influencer-brand partnerships, ensuring compliance with applicable laws in the UAE and other jurisdictions where we operate.</p>
+
+        <h2>2. Eligibility</h2>
+        <p>To use the Influency platform and Services, you must meet the following criteria:</p>
+        <ul>
+          <li><strong>Age Requirement:</strong> You must be at least 18 years old. If you are under 18, you may only use the Services with the involvement and consent of a parent or legal guardian.</li>
+          <li><strong>Accurate Information:</strong> All users must provide complete, accurate, and up-to-date information during registration and throughout the use of the platform.</li>
+          <li><strong>Brands:</strong> Business users must be duly registered legal entities and authorized to act on behalf of their organization when creating campaigns or entering into agreements.</li>
+          <li><strong>Influencers:</strong> Individual users must comply with all applicable UAE National Media Council licensing rules, advertising regulations, and any other local laws relevant to influencer marketing.</li>
+        </ul>
+        <p>We reserve the right to request proof of eligibility at any time and to suspend or terminate accounts that fail to meet these requirements.</p>
+
+        <h2>3. Account Registration</h2>
+        <p>To access and use the Influency Services, you must create a personal or business account ("Account"). When registering, you agree to the following:</p>
+        <ul>
+          <li><strong><em>Accurate Information:</em></strong> You will provide true, complete, and current information at all times and update it promptly if any changes occur.</li>
+          <li><strong><em>Account Security:</em></strong> You are responsible for maintaining the confidentiality of your login credentials and for all activities conducted under your Account.</li>
+          <li><strong><em>Authorized Use:</em></strong> Business users must ensure that only duly authorized representatives have access to and manage the brand's Account.</li>
+          <li><strong><em>Prohibited Transfers:</em></strong> Accounts may not be transferred, sold, or assigned to another party without our prior written consent.</li>
+        </ul>
+        <p>→ We reserve the right to verify any information provided during registration and may suspend or terminate Accounts where fraudulent, incomplete, or misleading information is identified.</p>
+
+        <h2>4. Services Overview</h2>
+        <ul>
+          <li><strong><em>AI Swipe-to-Match:</em></strong> Recommends campaigns and influencers using automated algorithms.</li>
+          <li><strong><em>In-App Messaging:</em></strong> Enables negotiations, briefs, and confirmations.</li>
+          <li><strong><em>Escrow Payments:</em></strong> All campaign funds are securely held by licensed payment partners.</li>
+          <li><strong><em>Analytics Dashboard:</em></strong> Provides real-time insights into campaign performance.</li>
+        </ul>
+
+        <h2>5. Payments & Escrow</h2>
+        <ul>
+          <li>Brands deposit campaign funds in advance via licensed PSP/escrow partners (e.g., Stripe + Paypal).</li>
+          <li>Funds are released to influencers only upon completion of deliverables as per campaign terms.</li>
+          <li>Influency does not directly hold or process campaign funds.</li>
+        </ul>
+
+        <h2>6. Content & Intellectual Property</h2>
+        
+        <h3>6.1. User Content Ownership</h3>
+        <p>Influencers retain full ownership of all content they create and upload ("User Content") unless otherwise agreed in writing under specific campaign contracts between the influencer and the brand.</p>
+
+        <h3>6.2. Brand Usage Rights</h3>
+        <p>By participating in a campaign, influencers grant the respective brand a limited, non-exclusive, worldwide, royalty-free license to use, reproduce, and distribute the User Content strictly for the purposes and duration defined in the campaign agreement.</p>
+
+        <h3>6.3. Platform License</h3>
+        <p>By uploading or sharing content on the platform, users grant Influency a non-exclusive, revocable license to host, store, and display the content solely for providing and improving the Services, including campaign verification and analytics. We will never claim ownership over User Content.</p>
+
+        <h3>6.4. Intellectual Property of Influency</h3>
+        <p>All rights, title, and interest in the platform itself, including the AI matchmaking technology, software, trademarks, logos, and other proprietary materials (collectively, "Influency IP"), remain the exclusive property of Influency and its licensors. Users may not copy, modify, or distribute any Influency IP without prior written consent.</p>
+
+        <h3>6.5. Prohibited Content</h3>
+        <p>Users agree not to upload content that is illegal, infringing, defamatory, or violates the intellectual property rights of third parties. We reserve the right to remove any such content at our discretion and to suspend or terminate accounts engaged in repeated violations.</p>
+
+        <h2>7. Data Protection & Privacy</h2>
+        <p>We are committed to protecting your personal data in compliance with the UAE Personal Data Protection Law (Federal Decree-Law No. 45 of 2021) and other applicable data protection regulations.</p>
+        <ul>
+          <li><strong>Data Collection & Processing:</strong> Personal data collected through the platform is processed solely for providing and improving the Services, including campaign matchmaking, analytics, and payment facilitation.</li>
+          <li><strong>User Rights:</strong> Users have the right to access, correct, delete, or restrict the processing of their personal data, as outlined in our Privacy Policy.</li>
+          <li><strong>Data Security:</strong> We implement reasonable technical and organizational measures to protect personal data from unauthorized access, disclosure, or loss.</li>
+          <li><strong>Third-Party Providers:</strong> Certain services (e.g., payment processing, analytics, in-app messaging) may involve vetted third-party providers, bound by strict data protection obligations.</li>
+        </ul>
+        <p>For full details, please review our separate <a href="/privacy.html">Privacy Policy</a>, which forms part of these Terms.</p>
+
+        <h2>8. Advertising & Licensing Compliance</h2>
+        <ul>
+          <li><strong>Influencer Obligations:</strong> Influencers must comply with the UAE National Media Council (NMC) influencer licensing rules, advertising disclosure requirements, and all applicable local advertising laws.</li>
+          <li><strong>Brand Obligations:</strong> Brands must ensure that campaign materials and requests comply with intellectual property laws, consumer protection laws, and applicable advertising standards.</li>
+          <li><strong>Platform Role:</strong> Influency acts as a neutral intermediary and is not responsible for users' failure to comply with advertising, licensing, or disclosure obligations.</li>
+        </ul>
+        <p>We reserve the right to remove campaigns or content that violate applicable laws or these Terms.</p>
+
+        <h2>9. Prohibited Activities</h2>
+        <p>Users agree not to:</p>
+        <ul>
+          <li>Use the platform for illegal, fraudulent, or misleading activities.</li>
+          <li>Circumvent our escrow or payment systems.</li>
+          <li>Upload content that infringes the intellectual property or privacy rights of third parties.</li>
+          <li>Engage in spam, harassment, or abusive behavior towards other users.</li>
+          <li>Attempt to hack, disrupt, or reverse-engineer the platform or its technologies.</li>
+        </ul>
+        <p>Violations may result in suspension or termination of accounts, removal of campaigns, and potential legal action.</p>
+
+        <h2>10. Dispute Resolution</h2>
+        <ul>
+          <li><strong>Platform Mediation:</strong> All disputes between brands and influencers should first be addressed through in-app communication and our dispute mediation process.</li>
+          <li><strong>Escrow Disputes:</strong> Payment-related disputes will be handled in accordance with the licensed escrow/payment provider's dispute resolution procedures, which comply with UAE Central Bank regulations.</li>
+          <li><strong>Legal Recourse:</strong> If disputes cannot be resolved amicably, they will be governed by the laws and courts specified in Clause 13 (Governing Law).</li>
+        </ul>
+
+        <h2>11. Limitation of Liability</h2>
+        <ul>
+          <li>Influency is not liable for indirect, incidental, or consequential damages arising from platform use.</li>
+          <li>Our <em>total liability</em> for any claim shall not exceed the total fees paid for the specific campaign giving rise to the claim.</li>
+        </ul>
+
+        <h2>12. Termination</h2>
+        <ul>
+          <li>Users may delete their accounts at any time.</li>
+          <li>We may suspend or terminate access for violations of these Terms or applicable laws.</li>
+          <li>Termination does not affect rights or obligations accrued prior to termination, including payment obligations and intellectual property rights.</li>
+        </ul>
+
+        <h2>13. Governing Law</h2>
+        <p>These Terms are governed by the laws of the United Arab Emirates, with disputes subject to Meydan Free Zone Courts.</p>
+
+        <h2>14. Contact Information</h2>
+        <p>For inquiries regarding these Terms, please contact:</p>
+        <div class="bg-[var(--secondary)] rounded-2xl p-6 mt-4">
+          <p class="!mb-2"><strong>Email:</strong> <a href="mailto:info@influencymatch.com">info@influencymatch.com</a></p>
+          <p class="!mb-0"><strong>Phone:</strong> +971 50 199 8527</p>
+        </div>
+
+      </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-[var(--outline)] py-8">
+      <div class="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <p class="text-sm text-[var(--subtitle)]">© 2026 Influency. All rights reserved.</p>
+        <div class="flex items-center gap-6 text-sm">
+          <a href="/privacy.html" class="text-[var(--subtitle)] hover:text-[var(--primary)] transition">Privacy Policy</a>
+          <a href="/terms.html" class="text-[var(--primary)] font-medium">Terms of Service</a>
+          <a href="/" class="text-[var(--subtitle)] hover:text-[var(--primary)] transition">Home</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

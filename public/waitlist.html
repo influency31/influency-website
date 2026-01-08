@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Influency Waitlist</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <style>
+      :root {
+        --primary: #232120;
+        --secondary: #F5EAE2;
+        --outline: #EADCD3;
+        --subtitle: #624639;
+        --accent-orange: #FF4100;
+        --accent-green: #00E264;
+        --accent-pink: #FF78F4;
+      }
+      body {
+        font-family: 'DM Sans', sans-serif;
+        background:
+          radial-gradient(circle at 20% 15%, rgba(255,120,244,0.16), transparent 22%),
+          radial-gradient(circle at 80% 0%, rgba(0,226,100,0.14), transparent 18%),
+          #ffffff;
+      }
+      .glass-card {
+        backdrop-filter: blur(12px);
+        background: rgba(255, 255, 255, 0.82);
+        border: 1px solid rgba(234, 220, 211, 0.7);
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.08);
+      }
+      @keyframes float {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-10px); }
+      }
+      .animate-float { animation: float 4s ease-in-out infinite; }
+      .animate-float-slow { animation: float 5s ease-in-out infinite; }
+      .animate-float-delayed { animation: float 4.5s ease-in-out infinite 0.8s; }
+      .success-message {
+        animation: slideIn 0.3s ease-out;
+      }
+      @keyframes slideIn {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+    </style>
+  </head>
+  <body class="text-[var(--primary)]">
+    <header class="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-[var(--outline)]">
+      <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+        <a href="/" class="flex items-center gap-3">
+          <img src="/assets/Logo.png" alt="Influency" class="h-9" />
+          <span class="font-semibold text-sm tracking-wide text-[var(--subtitle)]">Waitlist</span>
+        </a>
+        <div class="hidden sm:flex items-center gap-3 text-sm font-medium">
+          <a href="/" class="px-4 py-2 rounded-full bg-[var(--primary)] text-white hover:opacity-90 transition">Back to Site</a>
+        </div>
+      </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 py-12 space-y-16">
+      <!-- Hero -->
+      <section class="grid lg:grid-cols-2 gap-10 items-center">
+        <div class="space-y-5">
+          <h1 class="text-4xl md:text-5xl font-bold leading-tight text-[var(--primary)]">
+            Join the Influency Waitlist <span class="text-[var(--accent-orange)]">early</span>.
+          </h1>
+          <p class="text-lg text-[var(--subtitle)] max-w-xl">
+            Early drops, faster payouts, and verified vibes. Reserve your spot and get the first invites when we open the doors.
+          </p>
+          <div class="flex flex-wrap gap-3">
+            <button data-select="brand" class="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-[var(--primary)] text-white font-semibold hover:opacity-90 transition">
+              Join as Brand
+              <span aria-hidden="true">→</span>
+            </button>
+            <button data-select="influencer" class="inline-flex items-center gap-2 px-5 py-3 rounded-full bg-white text-[var(--primary)] border border-[var(--outline)] font-semibold hover:border-[var(--primary)] transition">
+              Join as Influencer
+              <span aria-hidden="true">✨</span>
+            </button>
+          </div>
+          <div class="flex flex-wrap gap-2 text-sm text-[var(--subtitle)]">
+            <span class="px-3 py-1 rounded-full bg-[var(--accent-pink)]/10 text-[var(--accent-pink)]">Verified creators</span>
+            <span class="px-3 py-1 rounded-full bg-[var(--accent-green)]/10 text-[var(--accent-green)]">Fast payouts</span>
+            <span class="px-3 py-1 rounded-full bg-[var(--accent-orange)]/10 text-[var(--accent-orange)]">No spam</span>
+          </div>
+        </div>
+        <div class="relative h-[520px] lg:h-[640px] flex items-center justify-center">
+          <div class="absolute -top-6 -left-8 w-28 h-28 rounded-full bg-[var(--accent-pink)]/20 blur-2xl"></div>
+          <div class="absolute -bottom-4 -right-10 w-32 h-32 rounded-full bg-[var(--accent-green)]/20 blur-2xl"></div>
+
+          <div class="absolute left-0 lg:left-[5%] top-[15%] z-10 transform hover:scale-105 transition-all duration-500 animate-float-delayed">
+            <div class="relative">
+              <div class="w-[200px] sm:w-[240px] lg:w-[280px] bg-black rounded-[3rem] p-[8px] shadow-2xl">
+                <div class="absolute top-[12px] left-1/2 -translate-x-1/2 w-[80px] h-[25px] bg-black rounded-full z-20"></div>
+                <div class="relative rounded-[2.5rem] overflow-hidden bg-white">
+                  <img 
+                    src="/assets/Discover Deck - Swipe left.png" 
+                    alt="Swipe Left" 
+                    class="w-full h-auto"
+                  />
+                </div>
+              </div>
+              <div class="absolute -left-8 top-1/2 -translate-y-1/2 bg-[var(--accent-orange)] text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Nope
+              </div>
+            </div>
+          </div>
+
+          <div class="absolute right-0 lg:right-[5%] top-[5%] z-20 transform hover:scale-105 transition-all duration-500 animate-float-slow">
+            <div class="relative">
+              <div class="w-[220px] sm:w-[260px] lg:w-[300px] bg-black rounded-[3rem] p-[8px] shadow-2xl">
+                <div class="absolute top-[12px] left-1/2 -translate-x-1/2 w-[90px] h-[28px] bg-black rounded-full z-20"></div>
+                <div class="relative rounded-[2.5rem] overflow-hidden bg-white">
+                  <img 
+                    src="/assets/Discover Deck - Swipe right.png" 
+                    alt="Swipe Right" 
+                    class="w-full h-auto"
+                  />
+                </div>
+              </div>
+              <div class="absolute -right-8 top-1/2 -translate-y-1/2 bg-[var(--accent-green)] text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg flex items-center gap-2">
+                Like
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="absolute top-[0%] right-[15%] bg-white/90 backdrop-blur-sm rounded-2xl shadow-xl px-5 py-3 z-30 animate-bounce">
+            <div class="flex items-center gap-2">
+              <span class="text-2xl">🎉</span>
+              <span class="text-sm font-bold text-[var(--primary)]">It's a Match!</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Cards -->
+      <section class="grid md:grid-cols-2 gap-6">
+        <div
+          data-card="brand"
+          class="glass-card border border-[var(--outline)] rounded-3xl p-8 flex flex-col gap-6 cursor-pointer transition hover:-translate-y-1 hover:shadow-2xl"
+        >
+          <div class="text-6xl">🏙️</div>
+          <div>
+            <h2 class="text-2xl font-semibold mb-2">I'm a Brand</h2>
+            <p class="text-[var(--subtitle)] leading-relaxed">
+              Scale your brand with AI-powered influencer matching, streamlined campaign management, and real-time analytics
+            </p>
+          </div>
+          <ul class="space-y-3 text-[var(--primary)]">
+            <li class="flex items-center gap-2"><span class="text-[var(--accent-orange)] text-lg">✓</span>AI-powered influencer discovery</li>
+            <li class="flex items-center gap-2"><span class="text-[var(--accent-orange)] text-lg">✓</span>Automated campaign workflows</li>
+            <li class="flex items-center gap-2"><span class="text-[var(--accent-orange)] text-lg">✓</span>Secure escrow payments</li>
+          </ul>
+          <button
+            data-select="brand"
+            class="mt-auto inline-flex items-center justify-center gap-2 bg-[var(--primary)] text-[var(--secondary)] px-6 py-3 rounded-full font-semibold hover:opacity-90 transition"
+          >
+            Join as Brand
+            <span aria-hidden="true">→</span>
+          </button>
+        </div>
+
+        <div
+          data-card="influencer"
+          class="glass-card border border-[var(--outline)] rounded-3xl p-8 flex flex-col gap-6 cursor-pointer transition hover:-translate-y-1 hover:shadow-2xl"
+        >
+          <div class="text-6xl">🧑‍🚀</div>
+          <div>
+            <h2 class="text-2xl font-semibold mb-2">I'm an Influencer</h2>
+            <p class="text-[var(--subtitle)] leading-relaxed">
+              Connect with top brands, access exclusive deals, and get paid faster through our secure platform
+            </p>
+          </div>
+          <ul class="space-y-3 text-[var(--primary)]">
+            <li class="flex items-center gap-2"><span class="text-[var(--accent-orange)] text-lg">✓</span>Match with brands instantly</li>
+            <li class="flex items-center gap-2"><span class="text-[var(--accent-orange)] text-lg">✓</span>Exclusive event access</li>
+            <li class="flex items-center gap-2"><span class="text-[var(--accent-orange)] text-lg">✓</span>Fast, secure payouts</li>
+          </ul>
+          <button
+            data-select="influencer"
+            class="mt-auto inline-flex items-center justify-center gap-2 bg-[var(--primary)] text-[var(--secondary)] px-6 py-3 rounded-full font-semibold hover:opacity-90 transition"
+          >
+            Join as Influencer
+            <span aria-hidden="true">→</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- Brand form -->
+      <section id="brand-form" class="max-w-4xl mx-auto space-y-4 hidden">
+        <div class="text-center space-y-2">
+          <h2 class="text-3xl md:text-4xl font-bold">Join the Brands Waitlist &amp; Get Exclusive Perks!</h2>
+          <p class="text-[var(--subtitle)] text-lg">Be among the first brands to access Influency. Get priority onboarding and exposure.</p>
+        </div>
+        <div class="glass-card rounded-3xl p-8 space-y-6">
+          <form id="brand-waitlist-form" class="grid gap-4">
+            <input type="hidden" name="form_type" value="Brand Waitlist" />
+            <div>
+              <label class="block text-sm font-medium mb-1">Your Name *</label>
+              <input type="text" name="name" required class="w-full rounded-lg border border-[var(--outline)] px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" placeholder="Full name" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1">Company Name *</label>
+              <input type="text" name="company" required class="w-full rounded-lg border border-[var(--outline)] px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" placeholder="Your brand or company" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1">Work Email Address *</label>
+              <input type="email" name="email" required class="w-full rounded-lg border border-[var(--outline)] px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" placeholder="you@company.com" />
+            </div>
+            <div>
+              <p class="text-sm font-medium mb-2">Which Platforms Are You Targeting? *</p>
+              <div class="space-y-2 text-[var(--primary)]">
+                <label class="flex items-center gap-2"><input type="checkbox" name="platforms" value="Instagram" class="text-[var(--primary)]" /> Instagram</label>
+                <label class="flex items-center gap-2"><input type="checkbox" name="platforms" value="TikTok" class="text-[var(--primary)]" /> TikTok</label>
+                <label class="flex items-center gap-2"><input type="checkbox" name="platforms" value="YouTube" class="text-[var(--primary)]" /> YouTube</label>
+                <label class="flex items-center gap-2"><input type="checkbox" name="platforms" value="LinkedIn" class="text-[var(--primary)]" /> LinkedIn</label>
+                <label class="flex items-center gap-2"><input type="checkbox" name="platforms" value="Other" class="text-[var(--primary)]" /> Other</label>
+              </div>
+              <p class="text-sm text-[var(--subtitle)] mt-2">Select all platforms where you want to run influencer campaigns</p>
+            </div>
+            <div>
+              <p class="text-sm font-medium mb-2">Were you referred by someone?</p>
+              <div class="space-y-2 text-[var(--primary)]">
+                <label class="flex items-center gap-2"><input type="radio" name="referred" value="Yes" class="text-[var(--primary)]" onchange="toggleReferrerField(this, 'brand')" /> Yes</label>
+                <label class="flex items-center gap-2"><input type="radio" name="referred" value="No" class="text-[var(--primary)]" onchange="toggleReferrerField(this, 'brand')" /> No</label>
+              </div>
+            </div>
+            <div id="brand-referrer-field" class="hidden">
+              <label class="block text-sm font-medium mb-1">Who referred you?</label>
+              <input type="text" name="referrer_name" class="w-full rounded-lg border border-[var(--outline)] px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" placeholder="Referrer's name" />
+            </div>
+            <div class="flex">
+              <button type="submit" class="w-full bg-[var(--primary)] text-[var(--secondary)] py-3.5 rounded-full font-semibold hover:opacity-90 transition inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                <span class="btn-text">Join the Waitlist</span>
+                <span class="btn-loading hidden">Submitting...</span>
+                <span aria-hidden="true" class="btn-arrow">→</span>
+              </button>
+            </div>
+          </form>
+          <!-- Success Message -->
+          <div id="brand-success" class="hidden success-message text-center py-8">
+            <div class="text-6xl mb-4">🎉</div>
+            <h3 class="text-2xl font-bold text-[var(--primary)] mb-2">You're on the list!</h3>
+            <p class="text-[var(--subtitle)]">We'll reach out soon with exclusive updates and early access.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Influencer form -->
+      <section id="influencer-form" class="max-w-4xl mx-auto space-y-4 hidden">
+        <div class="text-center space-y-2">
+          <h2 class="text-3xl md:text-4xl font-bold">Connect with Top Brands &amp; <span class="text-[var(--accent-orange)]">Grow Your Influence</span></h2>
+          <p class="text-[var(--subtitle)] text-lg">Join thousands of creators finding authentic brand partnerships, exclusive opportunities, and getting paid faster.</p>
+        </div>
+        <div class="flex flex-wrap justify-center gap-4 text-sm text-[var(--primary)]">
+          <div class="flex items-center gap-2 bg-[var(--secondary)] text-[var(--primary)] px-3 py-2 rounded-lg">🔎 Instant Brand Matching</div>
+          <div class="flex items-center gap-2 bg-[var(--secondary)] text-[var(--primary)] px-3 py-2 rounded-lg">📅 Exclusive Events</div>
+          <div class="flex items-center gap-2 bg-[var(--secondary)] text-[var(--primary)] px-3 py-2 rounded-lg">💸 Fast Payouts</div>
+          <div class="flex items-center gap-2 bg-[var(--secondary)] text-[var(--primary)] px-3 py-2 rounded-lg">🌐 Creator Network</div>
+        </div>
+
+        <div class="glass-card rounded-3xl p-8 space-y-6">
+          <form id="influencer-waitlist-form" class="grid gap-4">
+            <input type="hidden" name="form_type" value="Influencer Waitlist" />
+            <div>
+              <label class="block text-sm font-medium mb-1">Your Name *</label>
+              <input type="text" name="name" required class="w-full rounded-lg border border-[var(--outline)] px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" placeholder="Full name" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1">Social Media Handle *</label>
+              <input type="text" name="handle" required class="w-full rounded-lg border border-[var(--outline)] px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" placeholder="@yourhandle" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium mb-1">Email Address *</label>
+              <input type="email" name="email" required class="w-full rounded-lg border border-[var(--outline)] px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" placeholder="you@example.com" />
+            </div>
+            <div>
+              <p class="text-sm font-medium mb-2">Which Platforms Do You Create On? *</p>
+              <div class="space-y-2 text-[var(--primary)]">
+                <label class="flex items-center gap-2"><input type="checkbox" name="platforms" value="Instagram" class="text-[var(--primary)]" /> Instagram</label>
+                <label class="flex items-center gap-2"><input type="checkbox" name="platforms" value="TikTok" class="text-[var(--primary)]" /> TikTok</label>
+                <label class="flex items-center gap-2"><input type="checkbox" name="platforms" value="YouTube" class="text-[var(--primary)]" /> YouTube</label>
+                <label class="flex items-center gap-2"><input type="checkbox" name="platforms" value="LinkedIn" class="text-[var(--primary)]" /> LinkedIn</label>
+                <label class="flex items-center gap-2"><input type="checkbox" name="platforms" value="Other" class="text-[var(--primary)]" /> Other</label>
+              </div>
+              <p class="text-sm text-[var(--subtitle)] mt-2">Select all platforms where you create content</p>
+            </div>
+            <div>
+              <p class="text-sm font-medium mb-2">Were you referred by someone?</p>
+              <div class="space-y-2 text-[var(--primary)]">
+                <label class="flex items-center gap-2"><input type="radio" name="referred" value="Yes" class="text-[var(--primary)]" onchange="toggleReferrerField(this, 'influencer')" /> Yes</label>
+                <label class="flex items-center gap-2"><input type="radio" name="referred" value="No" class="text-[var(--primary)]" onchange="toggleReferrerField(this, 'influencer')" /> No</label>
+              </div>
+            </div>
+            <div id="influencer-referrer-field" class="hidden">
+              <label class="block text-sm font-medium mb-1">Who referred you?</label>
+              <input type="text" name="referrer_name" class="w-full rounded-lg border border-[var(--outline)] px-4 py-3 focus:outline-none focus:ring-2 focus:ring-[var(--primary)]" placeholder="Referrer's name" />
+            </div>
+            <div class="flex">
+              <button type="submit" class="w-full bg-[var(--primary)] text-[var(--secondary)] py-3.5 rounded-full font-semibold hover:opacity-90 transition inline-flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
+                <span class="btn-text">Join the Waitlist</span>
+                <span class="btn-loading hidden">Submitting...</span>
+                <span aria-hidden="true" class="btn-arrow">→</span>
+              </button>
+            </div>
+          </form>
+          <!-- Success Message -->
+          <div id="influencer-success" class="hidden success-message text-center py-8">
+            <div class="text-6xl mb-4">🎉</div>
+            <h3 class="text-2xl font-bold text-[var(--primary)] mb-2">You're on the list!</h3>
+            <p class="text-[var(--subtitle)]">We'll reach out soon with exclusive updates and early access.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      // =============================================
+      // EmailJS Configuration
+      // =============================================
+      // To set up EmailJS:
+      // 1. Go to https://www.emailjs.com/ and create a free account
+      // 2. Add an email service (Gmail, Outlook, etc.) 
+      // 3. Create an email template with variables: {{form_type}}, {{name}}, {{email}}, {{company}}, {{handle}}, {{platforms}}, {{referred}}
+      // 4. Replace the values below with your own:
+      
+      const EMAILJS_SERVICE_ID = 'service_kx0pxnk';
+      const EMAILJS_TEMPLATE_ID = 'template_6ksu6qo';
+      const EMAILJS_PUBLIC_KEY = 'R9c0lHKPQD4jnS8N3';
+      
+      // Initialize EmailJS
+      emailjs.init(EMAILJS_PUBLIC_KEY);
+
+      // =============================================
+      // Form Selection Logic
+      // =============================================
+      const brandCard = document.querySelector('[data-card="brand"]');
+      const influencerCard = document.querySelector('[data-card="influencer"]');
+      const brandButtons = document.querySelectorAll('[data-select="brand"]');
+      const influencerButtons = document.querySelectorAll('[data-select="influencer"]');
+      const brandFormSection = document.getElementById('brand-form');
+      const influencerFormSection = document.getElementById('influencer-form');
+
+      const setActive = (type) => {
+        const isBrand = type === 'brand';
+        brandFormSection.classList.toggle('hidden', !isBrand);
+        influencerFormSection.classList.toggle('hidden', isBrand);
+        brandCard.classList.toggle('ring-2', isBrand);
+        brandCard.classList.toggle('ring-[var(--accent-orange)]', isBrand);
+        influencerCard.classList.toggle('ring-2', !isBrand);
+        influencerCard.classList.toggle('ring-[var(--accent-orange)]', !isBrand);
+        const targetSection = isBrand ? brandFormSection : influencerFormSection;
+        targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      };
+
+      brandCard.addEventListener('click', () => setActive('brand'));
+      influencerCard.addEventListener('click', () => setActive('influencer'));
+      brandButtons.forEach((btn) => btn.addEventListener('click', (e) => { e.stopPropagation(); setActive('brand'); }));
+      influencerButtons.forEach((btn) => btn.addEventListener('click', (e) => { e.stopPropagation(); setActive('influencer'); }));
+
+      // =============================================
+      // Toggle Referrer Field
+      // =============================================
+      function toggleReferrerField(radio, formType) {
+        const referrerField = document.getElementById(`${formType}-referrer-field`);
+        if (radio.value === 'Yes') {
+          referrerField.classList.remove('hidden');
+        } else {
+          referrerField.classList.add('hidden');
+        }
+      }
+
+      // =============================================
+      // Form Submission Handler
+      // =============================================
+      async function handleFormSubmit(event, formType) {
+        event.preventDefault();
+        
+        const form = event.target;
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const btnText = submitBtn.querySelector('.btn-text');
+        const btnLoading = submitBtn.querySelector('.btn-loading');
+        const btnArrow = submitBtn.querySelector('.btn-arrow');
+        const successDiv = document.getElementById(`${formType}-success`);
+        
+        // Get form data
+        const formData = new FormData(form);
+        
+        // Get selected platforms
+        const platforms = [];
+        form.querySelectorAll('input[name="platforms"]:checked').forEach(cb => {
+          platforms.push(cb.value);
+        });
+        
+        // Get referred values
+        const referredInput = form.querySelector('input[name="referred"]:checked');
+        const wasReferred = referredInput ? referredInput.value === 'Yes' : false;
+        const referrerName = formData.get('referrer_name') || '';
+        
+        // Build the correct referral value for {{referred_by}}
+        const referred_by = wasReferred ? (referrerName.trim() || 'Yes') : 'No';
+        
+        // Determine user type
+        const userType = formType === 'brand' ? 'Brand' : 'Influencer';
+        
+        // Build template parameters (matching your existing EmailJS template)
+        const templateParams = {
+          user_name: formData.get('name'),
+          user_type: userType,
+          user_email: formData.get('email'),
+          social_platform: platforms.join(', ') || 'None selected',
+          was_referred: wasReferred ? 'Yes' : 'No',
+          referrer_name: referrerName,
+          referred_by: referred_by,
+          submission_date: new Date().toLocaleString(),
+        };
+        
+        // Show loading state
+        submitBtn.disabled = true;
+        btnText.classList.add('hidden');
+        btnLoading.classList.remove('hidden');
+        btnArrow.classList.add('hidden');
+        
+        try {
+          // Send email via EmailJS
+          await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams);
+          console.log('Email sent successfully');
+          
+          // Show success message
+          form.classList.add('hidden');
+          successDiv.classList.remove('hidden');
+          
+        } catch (error) {
+          console.error('Email send failed:', error);
+          
+          // Fallback: Open email client with pre-filled data
+          const subject = encodeURIComponent(`New ${userType} Waitlist Submission`);
+          const body = encodeURIComponent(
+            `New Waitlist Submission\n\n` +
+            `Type: ${userType}\n` +
+            `Name: ${templateParams.user_name}\n` +
+            `Email: ${templateParams.user_email}\n` +
+            `Platforms: ${templateParams.social_platform}\n` +
+            `Was Referred: ${templateParams.was_referred}\n` +
+            `Referred By: ${templateParams.referred_by}\n` +
+            `Date: ${templateParams.submission_date}`
+          );
+          
+          // Show success anyway (the mailto will open)
+          form.classList.add('hidden');
+          successDiv.classList.remove('hidden');
+          
+          // Open mailto as fallback
+          window.location.href = `mailto:info@influencymatch.com?subject=${subject}&body=${body}`;
+          
+        } finally {
+          // Reset button state
+          submitBtn.disabled = false;
+          btnText.classList.remove('hidden');
+          btnLoading.classList.add('hidden');
+          btnArrow.classList.remove('hidden');
+        }
+      }
+
+      // Attach form handlers
+      document.getElementById('brand-waitlist-form').addEventListener('submit', (e) => handleFormSubmit(e, 'brand'));
+      document.getElementById('influencer-waitlist-form').addEventListener('submit', (e) => handleFormSubmit(e, 'influencer'));
+    </script>
+  </body>
+</html>
