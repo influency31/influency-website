@@ -2146,7 +2146,7 @@
     const StackedJourney = () => {
       const stackRef = React.useRef(null);
       const [progress, setProgress] = useState(0);
-      const sectionsCount = 4;
+      const sectionsCount = 3; // Was 4, reduced after hiding Testimonials panel
 
       useEffect(() => {
         const onScroll = () => {
@@ -2194,7 +2194,7 @@
       };
 
       return (
-        <section ref={stackRef} className="relative bg-white" style={{ height: '520vh' }}>
+        <section ref={stackRef} className="relative bg-white" style={{ height: '390vh' }}>
           <div className="stacked-viewport">
             {/* Panel 1: Creators */}
             <div className="stacked-panel bg-primary text-secondary" style={getStyle(0)}>
@@ -2344,11 +2344,11 @@
               </div>
             </div>
 
-            {/* Panel 3: Testimonials */}
+            {/* Panel 3: Testimonials - COMMENTED OUT FOR LATER USE
             <div className="stacked-panel bg-white" style={getStyle(2)}>
               <div className="max-w-[1280px] mx-auto px-6 py-16 h-full flex flex-col">
                 <div className="text-center mb-16">
-                  <h2 className="font-montserrat font-bold text-3xl sm:text-4xl lg:text-5xl text-primary mb-4">Don’t Take Our Word for It</h2>
+                  <h2 className="font-montserrat font-bold text-3xl sm:text-4xl lg:text-5xl text-primary mb-4">Don't Take Our Word for It</h2>
                   <div className="mt-4 mb-6">
                     <p className="font-montserrat font-bold text-5xl sm:text-6xl lg:text-7xl gradient-text">26,900,789</p>
                     <p className="text-lg text-subtitle mt-2">Visitors engaged through our platform</p>
@@ -2403,9 +2403,10 @@
                 </div>
               </div>
             </div>
+            END Panel 3: Testimonials */}
 
-            {/* Panel 4: Final CTA */}
-            <div className="stacked-panel bg-white" style={getStyle(3)}>
+            {/* Panel 3: Final CTA (was Panel 4) */}
+            <div className="stacked-panel bg-white" style={getStyle(2)}>
               <div className="max-w-[1280px] mx-auto px-6 py-20 h-full flex items-center">
                 <div className="bg-white rounded-[2rem] sm:rounded-[3rem] shadow-xl p-8 sm:p-12 lg:p-16 text-center w-full">
                   <h2 className="font-montserrat font-bold text-3xl sm:text-4xl lg:text-5xl text-primary mb-6 max-w-3xl mx-auto leading-tight">
