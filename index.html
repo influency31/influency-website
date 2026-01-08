@@ -2743,7 +2743,7 @@
                   <h4 className="font-semibold text-sm uppercase tracking-wider mb-4">{title}</h4>
                   <ul className="space-y-3">
                     {items.map((item) => {
-                      const url = item === 'Privacy' ? '/privacy' : item === 'Terms' ? '/terms' : '#';
+                      const url = item === 'Privacy' ? '/privacy' : item === 'Terms' ? '/terms' : item === 'Contact' ? '#contact' : '#';
                       const isComingSoon = comingSoonItems.includes(item);
                       return (
                         <li key={item} className="flex items-center gap-2">
