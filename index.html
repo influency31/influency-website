@@ -2710,6 +2710,8 @@
         Support: ['Help Center', 'Contact', 'Community', 'Status'],
         Legal: ['Privacy', 'Terms', 'Cookies', 'GDPR'],
       };
+      
+      const comingSoonItems = ['API', 'Blog', 'Press', 'Careers', 'About Us', 'Help Center', 'Community', 'Status', 'GDPR', 'Cookies'];
 
       return (
         <footer className="bg-primary text-secondary py-16">
@@ -2742,14 +2744,18 @@
                   <ul className="space-y-3">
                     {items.map((item) => {
                       const url = item === 'Privacy' ? '/privacy' : item === 'Terms' ? '/terms' : '#';
+                      const isComingSoon = comingSoonItems.includes(item);
                       return (
-                        <li key={item}>
+                        <li key={item} className="flex items-center gap-2">
                           <a 
-                            href={url} 
-                            className="text-secondary/60 text-sm hover:text-secondary transition-colors"
+                            href={isComingSoon ? '#' : url} 
+                            className={`text-sm transition-colors ${isComingSoon ? 'text-secondary/40 cursor-default' : 'text-secondary/60 hover:text-secondary'}`}
                           >
                             {item}
                           </a>
+                          {isComingSoon && (
+                            <span className="text-[10px] font-medium text-accent-orange">Coming Soon</span>
+                          )}
                         </li>
                       );
                     })}
