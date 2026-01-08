@@ -390,14 +390,6 @@
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                     </svg>
                   </a>
-                  <button 
-                    type="button"
-                    onClick={() => setShowDemo(true)}
-                    className="inline-flex items-center gap-2 bg-transparent border-2 border-white text-white px-8 py-4 rounded-full text-base font-semibold hover:bg-white/10 transition-all hover:shadow-lg"
-                  >
-                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
-                    Watch
-                  </button>
                 </div>
 
                 <div className="flex items-center gap-4 pt-4">
@@ -469,42 +461,6 @@
             </div>
           </div>
 
-          {showDemo && (
-            <div
-              className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center px-4"
-              onClick={handleCloseDemo}
-              role="dialog"
-              aria-modal="true"
-            >
-              <div
-                className="relative w-full max-w-4xl"
-                onClick={(e) => e.stopPropagation()}
-              >
-                <button
-                  type="button"
-                  onClick={handleCloseDemo}
-                  className="absolute -top-4 -right-4 md:top-3 md:right-3 text-white bg-white/15 hover:bg-white/25 rounded-full p-2.5 md:p-3 border border-white/30 transition-colors shadow-lg"
-                  aria-label="Close demo video"
-                >
-                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-                <div className="overflow-hidden rounded-3xl shadow-2xl border border-white/10 bg-black">
-                  <video
-                    ref={demoVideoRef}
-                    controls
-                    autoPlay
-                    playsInline
-                    className="w-full h-full"
-                  >
-                    <source src="assets/output_progressive_ee9b954b-5f4f-4f14-81f5-dc4288f959e3.mp4" type="video/mp4" />
-                    Your browser does not support the video tag.
-                        </video>
-                    </div>
-                        </div>
-                    </div>
-          )}
         </section>
       );
     };
