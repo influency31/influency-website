@@ -2823,7 +2823,7 @@
                   <h4 className="font-semibold text-sm uppercase tracking-wider mb-4">{title}</h4>
                   <ul className="space-y-3">
                     {items.map((item) => {
-                      const url = item === 'Privacy' ? '/privacy.html' : item === 'Terms' ? '/terms.html' : '#';
+                      const url = item === 'Privacy' ? '/privacy' : item === 'Terms' ? '/terms' : '#';
                       return (
                         <li key={item}>
                           <a 
@@ -2842,8 +2842,8 @@
             <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-4">
               <p className="text-secondary/60 text-sm">© 2026 Influency. All rights reserved.</p>
               <div className="flex items-center gap-6">
-                <a href="/privacy.html" className="text-secondary/60 text-sm hover:text-secondary">Privacy Policy</a>
-                <a href="/terms.html" className="text-secondary/60 text-sm hover:text-secondary">Terms of Service</a>
+                <a href="/privacy" className="text-secondary/60 text-sm hover:text-secondary">Privacy Policy</a>
+                <a href="/terms" className="text-secondary/60 text-sm hover:text-secondary">Terms of Service</a>
                 <a href="#" className="text-secondary/60 text-sm hover:text-secondary">Cookies</a>
                 </div>
             </div>

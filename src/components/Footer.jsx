@@ -8,8 +8,8 @@ const footerLinks = {
 };
 
 const linkUrls = {
-  'Privacy': '/privacy.html',
-  'Terms': '/terms.html',
+  'Privacy': '/privacy',
+  'Terms': '/terms',
 };
 
 const socialLinks = [
@@ -113,10 +113,10 @@ const Footer = () => {
             © 2026 Influency. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            <a href="/privacy.html" className="text-secondary/60 text-sm hover:text-secondary">
+            <a href="/privacy" className="text-secondary/60 text-sm hover:text-secondary">
               Privacy Policy
             </a>
-            <a href="/terms.html" className="text-secondary/60 text-sm hover:text-secondary">
+            <a href="/terms" className="text-secondary/60 text-sm hover:text-secondary">
               Terms of Service
             </a>
             <a href="#" className="text-secondary/60 text-sm hover:text-secondary">
