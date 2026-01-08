@@ -2708,10 +2708,10 @@
         Product: ['Features', 'Pricing', 'API', 'Integrations'],
         Company: ['About Us', 'Careers', 'Press', 'Blog'],
         Support: ['Help Center', 'Contact', 'Community', 'Status'],
-        Legal: ['Privacy', 'Terms', 'Cookies', 'GDPR'],
+        Legal: ['Privacy Policy', 'Terms of Service', 'Cookies'],
       };
       
-      const comingSoonItems = ['API', 'Blog', 'Press', 'Careers', 'About Us', 'Help Center', 'Community', 'Status', 'GDPR', 'Cookies'];
+      const comingSoonItems = ['API', 'Blog', 'Press', 'Careers', 'About Us', 'Help Center', 'Community', 'Status', 'Cookies'];
 
       return (
         <footer className="bg-primary text-secondary py-16">
@@ -2741,7 +2741,7 @@
                   <h4 className="font-semibold text-sm uppercase tracking-wider mb-4">{title}</h4>
                   <ul className="space-y-3">
                     {items.map((item) => {
-                      const url = item === 'Privacy' ? '/privacy' : item === 'Terms' ? '/terms' : item === 'Contact' ? '#contact' : '#';
+                      const url = item === 'Privacy Policy' ? '/privacy' : item === 'Terms of Service' ? '/terms' : item === 'Contact' ? '#contact' : '#';
                       const isComingSoon = comingSoonItems.includes(item);
                       return (
                         <li key={item} className="flex items-center gap-2">
